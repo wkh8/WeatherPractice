@@ -114,10 +114,20 @@ search_li.addEventListener('click',function(e){
 })
 
 function render(nowCode){
-    getApiData(changeLocation(oneDayUrl,String(nowCode.code)))//指数
+    render_OneDay( getApiData(changeLocation(oneDayUrl,String(nowCode.code))))//指数
     getApiData(changeLocation(sevenDayUrl,String(nowCode.code)))//七日预报
     getApiData(changeLocation(allHourUrl,String(nowCode.code)))//逐小时播报
     getApiData(changeLocation(nowUrl,String(nowCode.code)))//实况
 }
+//生活指数渲染
+function render_OneDay(res){
 
+    res.then(f=>{
+       let res= f.data
+
+       console.log(res);
+       
+        
+    })
+}
 
