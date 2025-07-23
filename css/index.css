@@ -27,7 +27,8 @@
 }
 
 .input_search {
-    float: right;
+    position: absolute;
+    right: 0;
 }
 
 .search_list {
@@ -38,7 +39,6 @@
     background-color: #fff;
     position: relative;
     left: 10px;
-    top: 2px;
     max-height: 210px;
     overflow: scroll;
     overflow-x: hidden; /* 禁止左右滚动 */
@@ -47,7 +47,17 @@
     border-radius: 5px;
     padding: 8px;
     font-size: 14px;
+    position: absolute;
+    top: 32px;
 }
+/* 热门城市 */
+.hot_city {
+    position: absolute;
+    top: 32px;
+    width:277px ;
+    height: auto;
+}
+
 /* 搜索的选项样式 */
 .search_list ul li {
     cursor: pointer;
