@@ -25,16 +25,24 @@ let SearchTimer = null//搜索节流
 //添加事件
 const search_city = document.querySelector(`.search_city`)
 const search_list = document.querySelector(`.search_list ul`)
+const hot_city=document.querySelector('.hot_city')
+//搜索框获得焦点
+search_city.addEventListener('focus',function(){
+hot_city.style.display='block'
+})
+//搜索框失去焦点
+search_city.addEventListener('blur',function(){
+    hot_city.style.display='none'
+    
+    })
 //搜索框添加事件
 search_city.addEventListener('input',
     debounce(function () {
         // console.log('更新搜索结果');
         search_list.innerHTML = ''
-
-
-
         let key = search_city.value
         if (key !== "") {//不为空字符串搜索
+            //隐藏热门城市
             
 
             // console.log(key);//测试
@@ -54,13 +62,10 @@ search_city.addEventListener('input',
                       return `<li data-code="${item.code}">${highlightedName}</li>`;
                 })
                 search_list.innerHTML = AimCity.join('')
-
                 // console.log(AimCity);
             }
             else {
                 search_list.innerHTML = ``//搜索不到的提示
-
-
             }
         }
         else{

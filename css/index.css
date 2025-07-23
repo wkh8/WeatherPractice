@@ -32,6 +32,7 @@
 }
 
 .search_list {
+    display: block;
     text-align: left;
     box-sizing: border-box;
     width: 261px;
@@ -52,6 +53,7 @@
 }
 /* 热门城市 */
 .hot_city {
+    display: none;
     position: absolute;
     top: 32px;
     width:277px ;
