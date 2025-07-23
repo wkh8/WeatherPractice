@@ -1,14 +1,26 @@
 
 /* nav样式 */
+
+.logo {
+    width: 140px;
+    height: 32px;
+    position: absolute;
+    background: url(/data/img/0.webp) no-repeat ;
+    background-size:auto 32px ;
+}
+
 .search_city {
+    font-family: "Microsoft Yahei";
+    border: none;
+    background: rgba(255,255,255,.2);
+    color: rgba(255,255,255,.7);
     box-sizing: border-box;
     width: 277px;
     height: 30px;
     resize: none;
-    border: 1px solid silver;
     outline: none;
     padding: 5px 13px;
-    border-radius: 15px;
+    border-radius: 15px; 
     line-height: 20px;
     font-size: 14px;
 
@@ -16,8 +28,6 @@
 
 .input_search {
     float: right;
-    margin-right: 20px;
-
 }
 
 .search_list {

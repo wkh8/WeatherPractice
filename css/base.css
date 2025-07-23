@@ -2,11 +2,35 @@
     padding: 0;
     margin: 0;
 }
-
+input::placeholder {
+    color:rgba(255,255,255,.7);
+}
 body {
     background-color: silver;
+}
+.back {
+    text-align: center;
+    width: 2560px;
+    margin: 0px auto;
+    height: 595px;
+    background: url(/data/img/background.jpg) no-repeat;
+
+}
+.header {
+    border-bottom:1px solid rgba(255, 255, 255, .24) ;
 }
 .banner {
     width: 1200px;
     margin: 0 auto;
+}
+nav {
+    position: relative;
+    box-sizing: border-box;
+    padding-top: 17px;
+    height: 64px;
+}
+a {
+    color:#fff ;
+    text-decoration: none;
+
 }
