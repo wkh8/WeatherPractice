@@ -24,6 +24,7 @@ body {
     margin: 0 auto;
 }
 nav {
+    text-align: right;
     position: relative;
     box-sizing: border-box;
     padding-top: 17px;

@@ -9,6 +9,73 @@
     background-size:auto 32px ;
 }
 
+.nav_a{
+    
+    display: inline-block;
+    font-size: 12px;
+    margin-right: 20px;
+    margin-top: 5px;
+}
+.nav_a:last-of-type{
+    font-size: 14px;
+    margin-right: 300px;
+    color: #fff;
+    opacity: .7;
+    line-height: 14px;
+
+}
+.nav_p {
+    cursor: pointer;
+    font-size: 16px;
+    display: inline-block;
+    margin-top: 5px;
+    color: #fff;
+    padding-bottom: 20px;
+}
+/* 关注 */
+.concern {
+    display: none;
+    position: absolute;
+    left: 780px;
+    top: 50px;
+    width: 418px;
+    min-height: 86px;
+    background:#fff;
+    border-radius: 5px;
+    padding: 17px 0;
+    box-shadow: 0 0 4px 0 rgba(0,0,0,.1);
+}
+.concern:hover {
+    display:block;
+}
+.nav_p:hover + .concern {
+display: block;
+}
+.nav_p::before{
+    content: '';
+    display: inline-block;
+    width: 16px;
+    height: 16px;
+    margin-right: 8px;
+    vertical-align: baseline;
+    background: url(/data/img/nav_p_before.png);
+
+}
+.full_city {
+    display: none;
+    position: absolute;
+    width: 138px;
+    height: 27px;
+    background: #fff;
+    color: #9f9f9f;
+    line-height: 27px;
+    font-size: 12px;
+    right: 230px;
+    top: 50px;
+    box-shadow: 0 0 4px 0 rgba(0,0,0,.1);
+    border-radius: 5px;
+    text-align:center
+}
 .search_city {
     font-family: "Microsoft Yahei";
     border: none;
@@ -29,10 +96,11 @@
 .input_search {
     position: absolute;
     right: 0;
+    top: 17px;
 }
 
 .search_list {
-    display: block;
+    display: none;
     text-align: left;
     box-sizing: border-box;
     width: 261px;
