@@ -8,6 +8,9 @@ import {
     changeLocation,//改变api的城市代码
 } from "./base.js"
 
+const default_last=JSON.parse(localStorage.getItem('default_last'))||{name:'陕西,西安',code:101110101}
+//默认渲染
+console.log(default_last);
 
 //nav_导航栏
 // 获取所有城市 本地存储
@@ -36,7 +39,7 @@ search_city.addEventListener('blur', function () {
     setTimeout(function () {
         hot_city.style.display = 'none'
         search_list.style.display = 'none'
-    }, 100)
+    }, 200)
 
 })
 //搜索框添加事件
@@ -85,18 +88,7 @@ search_city.addEventListener('input',
 )//搜索框事件结束
 
 //初始化天气代码
-function firstCode() {
-    if (localStorage.getItem('code')) {
-        console.log(localStorage.getItem('code'));
-        return JSON.parse(localStorage.getItem('code'))
-
-    }
-    else {
-        return { code: 101110101 }
-    }
-}
-
-const WeatherCode = firstCode()
+const WeatherCode = { code: default_last.code }
 //检测天气代码改变
 const nowCode = new Proxy(WeatherCode, {
     set(target, key, val) {
@@ -107,16 +99,11 @@ const nowCode = new Proxy(WeatherCode, {
         render(nowCode)
         //检测当前城市是否在其中
         judge_nowCity()
-
-
-
-
-
         return true
     }
 })
-render(nowCode)//第一次渲染
-//点击改变天气代码code
+
+//点击改变天气代码code//并且改变定位
 const search_li = document.querySelector(`.search_list ul`)
 search_li.addEventListener('click', function (e) {
     if (e.target.tagName === 'LI') {
@@ -124,14 +111,25 @@ search_li.addEventListener('click', function (e) {
         search_city.value = ''
         //有代码才改变
         if (e.target.dataset.code) {
+            const locationName =document.querySelector('.nav_p')
+            locationName.innerHTML=e.target.innerHTML
             nowCode.code = e.target.dataset.code
+
             console.log(nowCode.code);
         }
 
     }
 })
 //添加关注
-const arrConcern = JSON.parse(localStorage.getItem('arrConcern')) || []
+const arrConcern = arrConcern1()
+function arrConcern1(){
+    if(JSON.parse(localStorage.getItem('arrConcern'))[0]!==null){
+        return JSON.parse(localStorage.getItem('arrConcern'))
+    }
+    else{
+        return []
+    }
+}
 
 //监听关注数组变化
 const ChangeConcern = new Proxy(arrConcern, {
@@ -143,8 +141,11 @@ const ChangeConcern = new Proxy(arrConcern, {
         // console.log(arrConcern);
         //检测当前城市是否包含在数组中
         judge_nowCity()
+        
+
         }
-        return Reflect.set(target, property, value)
+        let a=Reflect.set(target, property, value)
+        return a
     },
     deleteProperty(target, property) {
         // console.log('检测到删除');
@@ -155,7 +156,7 @@ const ChangeConcern = new Proxy(arrConcern, {
         let result=Reflect.deleteProperty(...arguments);
         //删除后
         judge_nowCity()
-        
+
         return  result
     }
 
@@ -166,7 +167,7 @@ const ChangeConcern = new Proxy(arrConcern, {
 function judge_nowCity(){
     const willchange=document.querySelector('.nav_a:last-of-type')//得到要改变的关注按钮
     for(let i=0;i<arrConcern.length;i++){
-        if(arrConcern[i]&&nowCode.code===arrConcern[i].code){
+        if(arrConcern[i]&&nowCode.code===Number(arrConcern[i].code)){
             // console.log('切换');
             willchange.innerHTML=`[已关注]`
             return
@@ -207,7 +208,8 @@ addConcern.addEventListener('click', function (e) {
 
             })
             addConcern.innerHTML = `[已关注]`
-            addConcern.style.cursor = 'default'
+            addConcern.style.cursor = 'default' 
+            localStorage.setItem('arrConcern',JSON.stringify(arrConcern))
         }
         else {
             fullCity.style.display = 'inline-block'
@@ -222,13 +224,12 @@ addConcern.addEventListener('click', function (e) {
 //添加渲染关注城市//用于监听数组函数调用
 function render_concern(arr) {
     const concernLi = document.querySelector(`.concern ul`)
-    let str = concernLi.innerHTML
-    if (concernLi.innerHTML === '') {//初始化
-        // console.log('111');
-        
+    let str = ''
+   
         for (let i=0;arrConcern[i]&&i<arr.length;i++) {
             str= str+ `<li data-code="${arr[i].code}">
-           <p>${arr[i].name}
+           <p>
+           <span>${arr[i].name}</span>
            <a class="set_default">设为默认</a>
            </p>
             <p class="weather" data-icon="${arr[i].data.icon}">${arr[i].data.weatherName}</p>
@@ -237,17 +238,7 @@ function render_concern(arr) {
             </li>`
             
         }
-    }
-    else{//添加最后一个
-        str=str+ `<li data-code="${arr[arr.length-1].code}">
-        <p>${arr[arr.length-1].name}
-         <a class="set_default">设为默认</a>
-        </p>
-        <p class="weather" data-icon="${arr[arr.length-1].data.icon}">${arr[arr.length-1].data.weatherName}</p>
-        <p class="temperature">${arr[arr.length-1].data.Min}°/${arr[arr.length-1].data.Max}°</p>
-        <a class="delete_concern"></a>
-        </li>`
-    }
+    
     concernLi.innerHTML=str
 
 }
@@ -264,12 +255,16 @@ concernLi.addEventListener('click',function(e){
         }
     }
     if(e.target.className==='set_default'){
-        console.log('设为默认');
+        // 设为默认
+        const aim= (e.target.parentElement).firstElementChild
+        localStorage.setItem('default_last',JSON.stringify({
+            name:aim.innerHTML,
+            code:Number(e.target.parentElement.parentElement.dataset.code)
+        }))
     }
     if(e.target.className==='delete_concern')
     {
         let aimcode=Number(e.target.parentElement.dataset.code)
-        
         //删除数组中的数据
         for(let i=0;i<ChangeConcern.length;i++){
             if(Number(ChangeConcern[i].code)===aimcode){
@@ -277,6 +272,7 @@ concernLi.addEventListener('click',function(e){
                 
                 delete ChangeConcern[i]
                 arrConcern.splice(i,1)//666妙手回春
+                localStorage.setItem('arrConcern',JSON.stringify(arrConcern))
             }
         }
         // console.log(nowCode.code);
@@ -289,7 +285,9 @@ concernLi.addEventListener('click',function(e){
 })
 
 
-function render(nowCode) {
+function render(nowCode) {  // 默认渲染
+    render_concern(arrConcern)//关注记录
+    judge_nowCity()
     render_OneDay(getApiData(changeLocation(oneDayUrl, String(nowCode.code))))//指数
     render_7d( getApiData(changeLocation(sevenDayUrl, String(nowCode.code))))//七日预报
     getApiData(changeLocation(allHourUrl, String(nowCode.code)))//逐小时播报
@@ -323,3 +321,12 @@ function render_7d(res){
         localStorage.setItem('7ddata',JSON.stringify(res))
     })
 }
+
+function default_location(){
+    const aim=document.querySelector(`.nav_p`)
+    aim.innerHTML=default_last.name
+}
+//第一次渲染
+default_location()
+render(nowCode)
+console.log(arrConcern);
