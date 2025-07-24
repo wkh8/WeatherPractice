@@ -100,12 +100,13 @@ const WeatherCode = firstCode()
 //检测天气代码改变
 const nowCode = new Proxy(WeatherCode, {
     set(target, key, val) {
-        console.log(`属性 ${key} 从 ${target[key]} 变成 ${val}`);
+        // console.log(`属性 ${key} 从 ${target[key]} 变成 ${val}`);
         target[key] = val
         localStorage.setItem('code', JSON.stringify(WeatherCode))
         //得到数据并渲染
         render(nowCode)
-
+        //检测当前城市是否在其中
+        judge_nowCity()
 
 
 
@@ -119,8 +120,7 @@ render(nowCode)//第一次渲染
 const search_li = document.querySelector(`.search_list ul`)
 search_li.addEventListener('click', function (e) {
     if (e.target.tagName === 'LI') {
-        console.log('清空');
-
+        // console.log('清空');
         search_city.value = ''
         //有代码才改变
         if (e.target.dataset.code) {
@@ -132,41 +132,80 @@ search_li.addEventListener('click', function (e) {
 })
 //添加关注
 const arrConcern = JSON.parse(localStorage.getItem('arrConcern')) || []
-console.log(arrConcern.length);
 
 //监听关注数组变化
 const ChangeConcern = new Proxy(arrConcern, {
 
     set(target, property, value) {
-        console.log('增加');
-
+        if (property === 'length') {
+        // console.log('检测到增加');
+        render_concern(arrConcern)
+        // console.log(arrConcern);
+        //检测当前城市是否包含在数组中
+        judge_nowCity()
+        }
         return Reflect.set(target, property, value)
     },
     deleteProperty(target, property) {
-        console.log('删除');
+        // console.log('检测到删除');
+        //检测当前城市是否包含在数组中
 
-        return Reflect.deleteProperty(...arguments);
+
+        //删除前
+        let result=Reflect.deleteProperty(...arguments);
+        //删除后
+        judge_nowCity()
+        
+        return  result
     }
 
 })
 
+
+//检测当前城市是否包含在数组中
+function judge_nowCity(){
+    const willchange=document.querySelector('.nav_a:last-of-type')//得到要改变的关注按钮
+    for(let i=0;i<arrConcern.length;i++){
+        if(arrConcern[i]&&nowCode.code===arrConcern[i].code){
+            // console.log('切换');
+            willchange.innerHTML=`[已关注]`
+            return
+        }
+    }
+     willchange.innerHTML=`[添加关注]`
+     willchange.style.cursor='pointer'
+    //  console.log(arrConcern);
+     
+}
+
+
+
 //关注按钮
 const fullCity = document.querySelector(`.full_city`)
 const addConcern = document.querySelector('.nav_a:last-of-type')
-
+const navP=document.querySelector(`.nav_p`)
 
 //离开按钮隐藏
 addConcern.addEventListener('mouseleave', function () {
     fullCity.style.display = 'none'
 })
-
+//点击添加当前城市数据到数组
 addConcern.addEventListener('click', function (e) {
     //阻止默认行为
     e.preventDefault()
     if (addConcern.innerHTML === `[添加关注]`) {
 
+        let nowdata =JSON.parse(localStorage.getItem('7ddata')).daily[0]
         if (ChangeConcern.length !== 5) {
-            ChangeConcern.push({code:nowCode,data:JSON.parse(localStorage.getItem('nowdata'))})
+            ChangeConcern.push({name:navP.innerHTML.slice(navP.innerHTML.lastIndexOf(',')+1),code:nowCode.code,
+                data:{
+                    weatherName:nowdata.textDay,
+                    Max:nowdata.tempMax,
+                    Min:nowdata.tempMin,
+                    icon:nowdata.iconDay
+                }
+
+            })
             addConcern.innerHTML = `[已关注]`
             addConcern.style.cursor = 'default'
         }
@@ -174,39 +213,85 @@ addConcern.addEventListener('click', function (e) {
             fullCity.style.display = 'inline-block'
         }
 
-        console.log(arrConcern);
 
 
 
     }
 })
 
-//重新渲染关注城市
+//添加渲染关注城市//用于监听数组函数调用
 function render_concern(arr) {
-    const concern = document.querySelector(`.concern`)
-    const str = concern.innerHTML
-    if (concern.innerHTML === '') {//初始化
-        console.log('111');
+    const concernLi = document.querySelector(`.concern ul`)
+    let str = concernLi.innerHTML
+    if (concernLi.innerHTML === '') {//初始化
+        // console.log('111');
         
-        for (let item of arr) {
-
+        for (let i=0;arrConcern[i]&&i<arr.length;i++) {
+            str= str+ `<li data-code="${arr[i].code}">
+           <p>${arr[i].name}
+           <a class="set_default">设为默认</a>
+           </p>
+            <p class="weather" data-icon="${arr[i].data.icon}">${arr[i].data.weatherName}</p>
+            <p class="temperature">${arr[i].data.Min}°/${arr[i].data.Max}°</p>
+            <a class="delete_concern"></a>
+            </li>`
+            
         }
     }
     else{//添加最后一个
-        
+        str=str+ `<li data-code="${arr[arr.length-1].code}">
+        <p>${arr[arr.length-1].name}
+         <a class="set_default">设为默认</a>
+        </p>
+        <p class="weather" data-icon="${arr[arr.length-1].data.icon}">${arr[arr.length-1].data.weatherName}</p>
+        <p class="temperature">${arr[arr.length-1].data.Min}°/${arr[arr.length-1].data.Max}°</p>
+        <a class="delete_concern"></a>
+        </li>`
     }
-
-
-}
-//添加一个的函数，
-function add_concern_city(code){
+    concernLi.innerHTML=str
 
 }
-render_concern(arrConcern)//测试
+//关注城市的点击事件
+const concernLi = document.querySelector(`.concern ul`)
+concernLi.addEventListener('click',function(e){
+    if(e.target.tagName==='P'){
+       
+        let parent=e.target.parentElement
+        if(nowCode.code!==Number(parent.dataset.code)){
+            console.log('转到该城市');
+            //nowcode
+            nowCode.code=Number(parent.dataset.code)
+        }
+    }
+    if(e.target.className==='set_default'){
+        console.log('设为默认');
+    }
+    if(e.target.className==='delete_concern')
+    {
+        let aimcode=Number(e.target.parentElement.dataset.code)
+        
+        //删除数组中的数据
+        for(let i=0;i<ChangeConcern.length;i++){
+            if(Number(ChangeConcern[i].code)===aimcode){
+
+                
+                delete ChangeConcern[i]
+                arrConcern.splice(i,1)//666妙手回春
+            }
+        }
+        // console.log(nowCode.code);
+        // console.log(arrConcern);
+        
+        //删除html结构
+        e.target.parentElement.remove()
+
+    }
+})
+
 
 function render(nowCode) {
     render_OneDay(getApiData(changeLocation(oneDayUrl, String(nowCode.code))))//指数
-    getApiData(changeLocation(sevenDayUrl, String(nowCode.code)))//七日预报
+    render_7d( getApiData(changeLocation(sevenDayUrl, String(nowCode.code))))//七日预报
     getApiData(changeLocation(allHourUrl, String(nowCode.code)))//逐小时播报
     render_now(getApiData(changeLocation(nowUrl, String(nowCode.code))))//实况
 
@@ -217,7 +302,7 @@ function render_OneDay(res) {
     res.then(f => {
         let res = f.data
 
-        console.log(res);
+
 
 
     })
@@ -227,8 +312,14 @@ function render_now(res){
     res.then(f => {
         let res = f.data
         localStorage.setItem('nowdata',JSON.stringify(res))
+    })
+}
+//7日数据
+function render_7d(res){
+    res.then(f => {
+        let res = f.data
         console.log(res);
-
-
+        
+        localStorage.setItem('7ddata',JSON.stringify(res))
     })
 }

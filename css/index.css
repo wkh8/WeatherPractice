@@ -44,6 +44,65 @@
     border-radius: 5px;
     padding: 17px 0;
     box-shadow: 0 0 4px 0 rgba(0,0,0,.1);
+    text-align: left;
+}
+.concern h3 {
+    font-size: 12px;
+    color: #9f9f9f;
+    height: 17px;
+    line-height: 17px;
+    font-weight: 400;
+    margin-left: 20px;
+}
+.concern ul{
+    padding-top: 10px;
+    list-style: none;
+
+}
+.concern ul li {
+    padding-left: 20px;
+    height: 32px;
+    line-height: 32px;
+    font-size: 14px;
+    color: #555;
+}
+.concern ul li:hover{
+    background-color: #f4f4f4;
+}
+.concern ul li:hover > p > .set_default,
+.concern ul li:hover > .delete_concern {
+    display: inline-block;
+}
+
+.concern ul li p{
+    display: inline-block;
+}
+.concern ul li p:nth-of-type(1){
+    width: 166px;
+}
+.set_default {
+    display: none;
+    cursor: pointer;
+    margin-left: 5px;
+    border: 1px solid #cecece;
+    color: #777;
+    font-size: 12px;
+    height: 18px;
+    line-height: 18px;
+    padding: 0 4px;
+    border-radius: 4px;
+    background-color: #f7f7f7;
+}
+.concern ul li p:nth-of-type(2){
+    width: 120px;
+}
+.delete_concern {
+    cursor: pointer;
+    display: none;
+    height: 15px;
+    width: 15px;
+    margin-left: 10px;
+    background: url(/data/img/delete_concern.png);
 }
 .concern:hover {
     display:block;
