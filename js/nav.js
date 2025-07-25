@@ -396,7 +396,7 @@ function render_7d(res){
     })
 }
 
-function default_location(){
+function default_location(){//默认渲染
     const aim=document.querySelector(`.nav_p`)
     aim.innerHTML=default_last.name
 }
