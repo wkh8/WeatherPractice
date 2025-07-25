@@ -137,7 +137,25 @@ function arrConcern1(){
         return []
     }
 }
+//热门城市点击跳转
+hot_city.addEventListener('click',function(e){
+    if(e.target.parentNode.dataset.code!==undefined){
+        let aim= e.target.parentNode
+        console.log(`转到${aim.dataset.code}`);
+        nowCode.code=Number(aim.dataset.code)
+        let changeNavP=document.querySelector('.nav_p')
+        // 改名
+        changeNavP.innerHTML=aim.dataset.name
+        //历史记录
+        addhistory({name:aim.dataset.name,
+            code:aim.dataset.code
+        })
 
+        
+        
+
+    }
+})
 //监听关注数组变化
 const ChangeConcern = new Proxy(arrConcern, {
 
@@ -295,8 +313,10 @@ concernLi.addEventListener('click',function(e){
 // obj= {code:,name:}
 function addhistory(obj){
     const historyArr= JSON.parse(localStorage.getItem('historydata'))||[]
-    if(historyArr.includes(obj)){//去重
-        return
+    for(let i=0;i<historyArr.length;i++){
+        if(Number(obj.code)===Number(historyArr[i].code)){
+            return
+        }
     }
 
 
