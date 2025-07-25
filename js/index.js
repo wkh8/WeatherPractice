@@ -332,7 +332,7 @@ function render_history(){
     //不为空则要渲染
     let str=''
     for(let i=0;i<historyArr.length;i++){
-        str= str+ `<li data-code="${historyArr[i].code}" data-name="${historyArr[i].name}">${historyArr[i].name}</li>`
+        str= str+ `<li data-code="${historyArr[i].code}" data-name="${historyArr[i].name}"><p>${historyArr[i].name}</p></li>`
     }
     const ul=document.querySelector('.history ul')
     ul.innerHTML=str
