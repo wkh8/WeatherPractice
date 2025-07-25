@@ -180,7 +180,7 @@ display: block;
 }
 /* 热门城市 */
 .hot_city {
-    display: block;
+    display: none;
     position: absolute;
     top: 32px;
     width:277px ;
