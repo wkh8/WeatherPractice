@@ -103,7 +103,7 @@ const nowCode = new Proxy(WeatherCode, {
     }
 })
 
-//点击改变天气代码code//并且改变定位
+//点击改变天气代码code//并且改变定位（搜索框的跳转）
 const search_li = document.querySelector(`.search_list ul`)
 search_li.addEventListener('click', function (e) {
     if (e.target.tagName === 'LI') {
@@ -112,9 +112,13 @@ search_li.addEventListener('click', function (e) {
         //有代码才改变
         if (e.target.dataset.code) {
             const locationName =document.querySelector('.nav_p')
-            locationName.innerHTML=e.target.innerHTML
+            locationName.innerHTML=locationName.innerHTML.match(/[\u4e00-\u9fa5,]/g)?.join('')
             nowCode.code = e.target.dataset.code
-
+            addhistory({
+                name:locationName.innerHTML.match(/[\u4e00-\u9fa5,]/g)?.join('').slice(navP.innerHTML.lastIndexOf(',')+1),
+                // navP.innerHTML.slice(navP.innerHTML.lastIndexOf(',')+1)
+                code:e.target.dataset.code
+            })
             console.log(nowCode.code);
         }
 
@@ -190,7 +194,7 @@ const navP=document.querySelector(`.nav_p`)
 addConcern.addEventListener('mouseleave', function () {
     fullCity.style.display = 'none'
 })
-//点击添加当前城市数据到数组
+//点击添加当前城市数据到数组(关注添加)
 addConcern.addEventListener('click', function (e) {
     //阻止默认行为
     e.preventDefault()
@@ -249,9 +253,10 @@ concernLi.addEventListener('click',function(e){
        
         let parent=e.target.parentElement
         if(nowCode.code!==Number(parent.dataset.code)){
-            console.log('转到该城市');
             //nowcode
             nowCode.code=Number(parent.dataset.code)
+            const willchangep=document.querySelector('nav_p')
+            navP.innerHTML=(e.target.parentElement).firstElementChild.firstElementChild.innerHTML
         }
     }
     if(e.target.className==='set_default'){
@@ -283,11 +288,57 @@ concernLi.addEventListener('click',function(e){
 
     }
 })
+//历史记录
+// obj= {code:,name:}
+function addhistory(obj){
+    const historyArr= JSON.parse(localStorage.getItem('historydata'))||[]
+    if(historyArr.includes(obj)){//去重
+        return
+    }
 
 
-function render(nowCode) {  // 默认渲染
+    historyArr.unshift(obj)
+    if(historyArr.length>4){//多余的删除
+        historyArr.pop()
+    }
+    localStorage.setItem('historydata',JSON.stringify(historyArr))//存下
+    //渲染
+    render_history()
+    //调用时将历史栏设为显示
+    const r=document.querySelector('.history')
+    r.style.display='block'
+
+}
+//清除历史记录的事件监听
+const clearHistory=document.querySelector('.btn')
+clearHistory.addEventListener('click',function(e){
+    e.preventDefault()
+   const clearAim=document.querySelector('.history')
+   localStorage.removeItem('historydata')
+   clearAim.style.display='none'
+    
+})
+//历史记录渲染
+function render_history(){
+    const r=document.querySelector('.history')
+    const historyArr= JSON.parse(localStorage.getItem('historydata'))||[]
+    if(historyArr.length===[].length){
+        r.style.display='none'
+        return
+    }
+    //不为空则要渲染
+    let str=''
+    for(let i=0;i<historyArr.length;i++){
+        str= str+ `<li data-code="${historyArr[i].code}" data-name="${historyArr[i].name}">${historyArr[i].name}</li>`
+    }
+    const ul=document.querySelector('.history ul')
+    ul.innerHTML=str
+}
+function render() {  // 默认渲染
     render_concern(arrConcern)//关注记录
     judge_nowCity()
+    console.log(`请求${nowCode.code}数据`);
+    render_history()//历史记录渲染
     render_OneDay(getApiData(changeLocation(oneDayUrl, String(nowCode.code))))//指数
     render_7d( getApiData(changeLocation(sevenDayUrl, String(nowCode.code))))//七日预报
     getApiData(changeLocation(allHourUrl, String(nowCode.code)))//逐小时播报

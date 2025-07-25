@@ -180,13 +180,105 @@ display: block;
 }
 /* 热门城市 */
 .hot_city {
-    display: none;
+    display: block;
     position: absolute;
     top: 32px;
     width:277px ;
     height: auto;
+    background-color: #fff;
+    box-shadow: 0 0 4px 0 rgba(0,0,0,.15);
+    border-radius: 5px;
+    padding: 20px 0 10px;
+    text-align: left;
+}
+.hot_city p {
+    display: block;
+}
+.hot_city .now_location {
+    font-size: 12px;
+    color: #9f9f9f;
+    height: 12px;
+    line-height: 12px;
+    clear: both;
+    padding: 0 20px;
+    margin-bottom: 12px;
+}
+.hot_city .now_location1 {
+    display: inline-block;
+    color: #555;
+    height: 14px;
+    line-height: 14px;
+    cursor: pointer;
+    margin-bottom: 24px;
+    margin-left: 20px;
+}
+.now_location1:hover {
+    background-color: #f3f3f3;
+}
+.hot_city .now_location1::after{
+    content: '';
+    vertical-align: middle;
+    height: 11px;
+    width: 10px;
+    display: inline-block;
+    margin-left: 6px;
+    background-image: url(/data/img/small_location.png);
+}
+.history {
+    width: 277px;
+    height: 50px;
+    margin-bottom: 14px;
+    text-align: left;
+}
+.tit {
+    display: inline-block;
+    margin-top: 2px;
+    margin-bottom: 8px;
+    padding: 0 20px;
+    width: 48px;
+    height: 12px;
+    font-size: 12px;
+    line-height: 12px;
+    color: #9f9f9f;
+}
+.history .btn {
+    float: right;
+    color: #868686;
+    text-align: center;
+    width: 40px;
+    height: 18px;
+    border-radius: 9px;
+    font-size: 12px;
+    margin-right: 20px;
+    background-color: #f0f0f0;
+    margin-top: 3px;
+}
+.history_ul,.history ul {
+    width: 259px;
+    height: 28px;
+    list-style: none;
+    margin-left: 20px;
+    margin-right: 2px;
+}
+.ul2 {
+    height: 196px;
 }
 
+.history_ul li,.history ul li {
+
+    color: #555;
+    font-size: 14px;
+    float: left;
+    width: 25%;
+    height: 28px;
+    cursor: pointer;
+}
+.history_ul li p{
+    display: inline-block;
+}
+.history_ul li p:hover{
+    background-color: #f3f3f3;
+}
 /* 搜索的选项样式 */
 .search_list ul li {
     cursor: pointer;

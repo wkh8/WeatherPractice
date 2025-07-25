@@ -2,6 +2,7 @@
     padding: 0;
     margin: 0;
 }
+
 input::placeholder {
     color:rgba(255,255,255,.7);
 }
@@ -33,5 +34,4 @@ nav {
 a {
     color:#fff ;
     text-decoration: none;
-
 }
