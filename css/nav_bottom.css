@@ -1,0 +1,29 @@
+.now_container {
+    text-align: left;
+
+}
+.push_time{
+    font-size: 14px;
+    color: #fff;
+    opacity: .6;
+    height: 8px;
+    line-height: 19px;
+    margin-bottom: 20px;
+    text-align: left;
+}
+.now_temp {
+    text-align: left;
+    display: inline-block;
+    font-size: 86px;
+    color: #fff;
+    height: 86px;
+    line-height: 86px;
+}
+.weather_name {
+    display: inline-block;
+    font-size: 28px;
+    color: #fff;
+    line-height: 45px;
+    height: 45px;
+    margin-right:24px ;
+}
