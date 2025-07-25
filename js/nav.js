@@ -8,6 +8,10 @@ import {
     changeLocation,//改变api的城市代码
 } from "./base.js"
 
+import {
+    render_now,
+    
+} from "./nav_bottom.js"
 const default_last=JSON.parse(localStorage.getItem('default_last'))||{name:'陕西,西安',code:101110101}
 //默认渲染
 console.log(default_last);
@@ -379,13 +383,7 @@ function render_OneDay(res) {
 
     })
 }
-//当前渲染
-function render_now(res){
-    res.then(f => {
-        let res = f.data
-        localStorage.setItem('nowdata',JSON.stringify(res))
-    })
-}
+
 //7日数据
 function render_7d(res){
     res.then(f => {
