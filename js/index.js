@@ -14,17 +14,20 @@ console.log(default_last);
 
 //nav_导航栏
 // 获取所有城市 本地存储
-axios({
-    url: '../data/localData/city.json'
-}).then(response => {
-    const AllcCty = response.data
-    localStorage.setItem('WeatherCity', JSON.stringify(AllCity))
-})
+function setAllCity(){
+    axios({
+        url: '../data/localData/city.json'
+    }).then(response => {
+        const AllCity = response.data
+        localStorage.setItem('WeatherCity', JSON.stringify(AllCity))
+    })
+}
+setAllCity()
 //获取到城市
 const AllCity = JSON.parse(localStorage.getItem('WeatherCity'))
 
 let AimCity
-let SearchTimer = null//搜索节流
+//搜索节流
 //添加事件
 const search_city = document.querySelector(`.search_city`)
 const search_list = document.querySelector(`.search_list`)
@@ -112,7 +115,7 @@ search_li.addEventListener('click', function (e) {
         //有代码才改变
         if (e.target.dataset.code) {
             const locationName =document.querySelector('.nav_p')
-            locationName.innerHTML=locationName.innerHTML.match(/[\u4e00-\u9fa5,]/g)?.join('')
+            locationName.innerHTML=e.target.innerHTML.match(/[\u4e00-\u9fa5,]/g)?.join('')
             nowCode.code = e.target.dataset.code
             addhistory({
                 name:locationName.innerHTML.match(/[\u4e00-\u9fa5,]/g)?.join('').slice(navP.innerHTML.lastIndexOf(',')+1),
@@ -127,7 +130,7 @@ search_li.addEventListener('click', function (e) {
 //添加关注
 const arrConcern = arrConcern1()
 function arrConcern1(){
-    if(JSON.parse(localStorage.getItem('arrConcern'))[0]!==null){
+    if(JSON.parse(localStorage.getItem('arrConcern'))){
         return JSON.parse(localStorage.getItem('arrConcern'))
     }
     else{
