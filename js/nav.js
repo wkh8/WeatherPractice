@@ -6,12 +6,16 @@ import {
     allHourUrl,//未来24h天气预报
     nowUrl,//当前实况天气
     changeLocation,//改变api的城市代码
+    //逐小时预报
 } from "./base.js"
 
 import {
     render_now,
-    
 } from "./nav_bottom.js"
+
+import {
+    render_hours,
+} from './hours.js'
 const default_last=JSON.parse(localStorage.getItem('default_last'))||{name:'陕西,西安',code:101110101}
 //默认渲染
 console.log(default_last);
@@ -46,6 +50,7 @@ search_city.addEventListener('blur', function () {
     setTimeout(function () {
         hot_city.style.display = 'none'
         search_list.style.display = 'none'
+          search_city.value = ''
     }, 200)
 
 })
@@ -368,7 +373,7 @@ function render() {  // 默认渲染
     render_history()//历史记录渲染
     render_OneDay(getApiData(changeLocation(oneDayUrl, String(nowCode.code))))//指数
     render_7d( getApiData(changeLocation(sevenDayUrl, String(nowCode.code))))//七日预报
-    getApiData(changeLocation(allHourUrl, String(nowCode.code)))//逐小时播报
+    render_hours(getApiData(changeLocation(allHourUrl, String(nowCode.code))))//逐小时播报
     render_now(getApiData(changeLocation(nowUrl, String(nowCode.code))))//实况
 
 }
