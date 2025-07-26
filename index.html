@@ -118,55 +118,23 @@
         <h2>七日天气预报</h2>
         <a href="" class="weather15d">15日天气预报</a>
         <ul>
-            <li>
-                <p class="day">昨天</p>
-                <p class="date">07月25日</p>
-                <div class="day_weather">
-                    <p class="day_weathername">阴</p>
-                    <img src="./data/img/small100.png" alt="">
-                </div>
-                <div class="night_weather">
-                    <img src="./data/img/small151.png" alt="">
-                    <p class="night_weathername">阴</p>
-                </div>
-                <p class="seven_day_wind">微风1-3级</p>
-            </li>
-            <li>
-                
-            </li>
-            <li>
-                
-            </li>
-            <li>
-                
-            </li>
-            <li>
-                
-            </li>
-            <li>
-                
-            </li>
-            <li>
-                
-            </li>
-            <li>
-                
-            </li>
+           
         </ul>
+        <div class="rongqi">
+            <canvas id="myChart"></canvas>
+        </div>
     </div>
 </div>
 </div>
 
-<script src="https://lf6-cdn-tos.bytecdntp.com/cdn/expire-1-M/Chart.js/3.7.1/chart.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2"></script>
     <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
     <script type="module" src="./js/base.js"></script>
     <script type="module" src="./js/nav.js"></script>
     <script type="module" src="./js/nav_bottom.js"></script>
     <script type="module" src="./js/Sliding_windows.js"></script>
     <script type="module" src="./js/hours.js"></script>
-    <script type="module" src="./js/main_body.js"></script>
-    <script src="/data/localData/city.json"></script>
-    
-    
+    <script type="module" src="./js/main_body.js"></script>     
 </body>
 </html>

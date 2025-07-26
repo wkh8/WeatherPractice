@@ -37,7 +37,7 @@ export function render_7d(sevenday,yesterday){//7日数据
     //以上为构建八天的数据
 console.log(arr);
 render_7d_child(arr)//渲染7天的天气预报
-                    //渲染折线图
+render_chart(arr)//渲染折线图
 })
 
 
@@ -75,7 +75,96 @@ function render_7d_child(arr){//渲染7d
     aimul.innerHTML=str
 }
 //折线图
+//全局注册
+Chart.register(ChartDataLabels);
+function render_chart(arr)
+{
+    const ctx = document.getElementById('myChart');//获取元素
+//横坐标
+const x=[0,1,2,3,4,5,6,7]
+let hightTemp=[]
+let lowTemp=[]
+for(let i=0;i<arr.length;i++){
+    hightTemp.push(arr[i].tempMax)
+    lowTemp.push(arr[i].tempMin)
+}
+const data = {
+    labels: x,
+    datasets: [
+        //高温
+        {
+            label: '',
+            data: hightTemp,
+            fill: false,
+            borderColor: 'rgb(255, 208, 0)',
+            pointBackgroundColor: 'rgb(255, 208, 0)',
+            tension: 0.3,
+            datalabels: {
+                display: true,          // 一直显示
+                align: 'top',           // 文字在点的上方
+                anchor: 'end',          // 锚点到点的顶部
+                offset: 4,              // 离点几像素
+                color: (ctx) => ctx.dataIndex === 0 ? 'silver' : 'rgba(37, 35, 35, 0.85)',          // 文字颜色
+                font: { size: 20 },
+                formatter: (value) => `${value}°` // 显示原始数值
+            }
+        },
+        //低温
+        {
+            label: '',
+            data: lowTemp,
+            fill: false,
+            borderColor: 'rgb(105, 175, 255)',
+            pointBackgroundColor: 'rgb(105, 175, 255)',
+            tension: 0.3,
+            datalabels: {
+                display: true,          // 一直显示
+                align: 'bottom',           // 文字在点的上方
+                anchor: 'end',          // 锚点到点的顶部
+                offset: 4,              // 离点几像素
+                color: (ctx) => ctx.dataIndex === 0 ? 'silver' : 'rgba(37, 35, 35, 0.85)',          // 文字颜色
+                font: { size: 20 },
+                formatter: (value) => `${value}°` // 显示原始数值
+            }
 
+        }
+    ]
+}//数据
+
+const config = {
+    type: 'line',
+    data: data,
+    options: {
+        plugins: {
+            legend: { display: false }, // 去掉图例
+            tooltip: { enabled: false } // 去掉悬停提示
+        },
+        layout: {
+            padding: {
+                top: 60,   // 上留白
+                right: 60,   // 右留白
+                bottom: 60,   // 下留白
+                left: 60    // 左留白
+            }
+        },
+        scales: {
+            x: {
+                display: false // 不显示横轴
+            },
+            y: {
+                display: false // 不显示纵轴
+            }
+        },
+        animation: false, // 禁用动画
+        responsive: true,
+        maintainAspectRatio: false
+    }
+};
+//设置
+
+//设立
+const myChart = new Chart(ctx, config)
+}
 
 
 //以上为七日天气预报
