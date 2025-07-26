@@ -5,17 +5,25 @@ import {
     sevenDayUrl,//七日预报
     allHourUrl,//未来24h天气预报
     nowUrl,//当前实况天气
-    changeLocation,//改变api的城市代码
-    //逐小时预报
+    changeLocation,
+    yesterdayUrl,//改变api的城市代码
+ 
+
 } from "./base.js"
 
 import {
-    render_now,
+    render_now,  //实况
 } from "./nav_bottom.js"
 
 import {
-    render_hours,
+    render_hours,   //逐小时预报
 } from './hours.js'
+import {
+    render_7d, //七日
+} from './main_body.js'
+
+
+
 const default_last=JSON.parse(localStorage.getItem('default_last'))||{name:'陕西,西安',code:101110101}
 //默认渲染
 console.log(default_last);
@@ -372,7 +380,7 @@ function render() {  // 默认渲染
     console.log(`请求${nowCode.code}数据`);
     render_history()//历史记录渲染
     render_OneDay(getApiData(changeLocation(oneDayUrl, String(nowCode.code))))//指数
-    render_7d( getApiData(changeLocation(sevenDayUrl, String(nowCode.code))))//七日预报
+    render_7d(getApiData(changeLocation(sevenDayUrl, String(nowCode.code))),getApiData(changeLocation(yesterdayUrl, String(nowCode.code))))//七日预报(包括昨天数据)
     render_hours(getApiData(changeLocation(allHourUrl, String(nowCode.code))))//逐小时播报
     render_now(getApiData(changeLocation(nowUrl, String(nowCode.code))))//实况
 
@@ -389,15 +397,7 @@ function render_OneDay(res) {
     })
 }
 
-//7日数据
-function render_7d(res){
-    res.then(f => {
-        let res = f.data
-        console.log(res);
-        
-        localStorage.setItem('7ddata',JSON.stringify(res))
-    })
-}
+
 
 function default_location(){//默认渲染
     const aim=document.querySelector(`.nav_p`)
@@ -406,4 +406,3 @@ function default_location(){//默认渲染
 //第一次渲染
 default_location()
 render(nowCode)
-console.log(arrConcern);

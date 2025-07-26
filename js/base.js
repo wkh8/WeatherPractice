@@ -9,8 +9,8 @@
 export const oneDayUrl='../data/localData/1d.json'  //https://n44t2at2rv.re.qweatherapi.com/v7/indices/1d?type=0&location=101110101&key=0f78c7eacd1d4118822553781c889ca8
 export const sevenDayUrl='../data/localData/7d.json'//https://n44t2at2rv.re.qweatherapi.com/v7/weather/7d?location=101110101&key=0f78c7eacd1d4118822553781c889ca8
 export const allHourUrl='../data/localData/24h.json'//https://n44t2at2rv.re.qweatherapi.com/v7/weather/24h?location=101110101&key=0f78c7eacd1d4118822553781c889ca8
-export const nowUrl='../data/localData/now.json'    //https://n44t2at2rv.re.qweatherapi.com/v7/weather/now?location=101110101&key=0f78c7eacd1d4118822553781c889ca8
-export const yesterday=''//https://n44t2at2rv.re.qweatherapi.com/v7/historical/weather?location=101010100&date=20250724&key=0f78c7eacd1d4118822553781c889ca8
+export const nowUrl='../data/localData/now.json'    //https://n44t2at2rv.re.qweatherapi.com/v7/weather/now?location=101110101&key=0f78c7eacd1d4118822553781c889ca8   
+export const yesterdayUrl='../data/localData/yesterday.json'//https://n44t2at2rv.re.qweatherapi.com/v7/historical/weather?location=101010100&date=20250724&key=0f78c7eacd1d4118822553781c889ca8//注意时间
 export function debounce(fn, t) {
     let timer
     return function () {

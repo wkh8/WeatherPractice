@@ -6,8 +6,6 @@ export function render_now(res){
     res.then(f => {
         let res = f.data
         // localStorage.setItem('nowdata',JSON.stringify(res))
-        console.log('当前实况');
-        console.log(f.data);
         //当前温度
         const nowtemp=document.querySelector('.now_temp')
         nowtemp.innerHTML=`${f.data.now.temp}°`
