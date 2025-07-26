@@ -1,12 +1,16 @@
 .now_container {
     text-align: left;
-
+    position: relative;
+    height: 310px;
+}
+.ct_main{
+    margin-bottom: 28px;
 }
 .push_time{
     font-size: 14px;
     color: #fff;
     opacity: .6;
-    height: 8px;
+    height: 19px;
     line-height: 19px;
     margin-bottom: 20px;
     text-align: left;
@@ -26,4 +30,158 @@
     line-height: 45px;
     height: 45px;
     margin-right:24px ;
+}
+.now_aqi {
+    display: inline-block;
+    height: 18px;
+    line-height: 18px;
+    font-size: 14px;
+    color: #fff;
+    padding: 3px 10px 3px 3px;
+}
+.wind_before{
+    display: inline-block;
+    width: 20px;
+    height: 20px;
+    margin-right: 10px;
+    vertical-align: bottom;
+    background: url(/data/img/south_wind.png) no-repeat;
+    rotate: 0deg;
+}
+.humidity::before {
+    content: '';
+    display: inline-block;
+    width: 20px;
+    height: 20px;
+    margin-right: 10px;
+    vertical-align: middle;
+    background: url(/data/img/humidity.png) no-repeat;
+
+}
+.kPa::before{
+    content: '';
+    display: inline-block;
+    width: 20px;
+    height: 20px;
+    margin-right: 10px;
+    vertical-align: middle;
+    background: url(/data/img/kPA.png) no-repeat;
+}
+.other span {
+    color: #fff;
+    height: 20px;
+    width: auto;
+    margin-right: 42px;
+    font-size: 18px;
+}
+.now_icon {
+    position: absolute;
+    width: 134px;
+    height: 134px;
+    background: url();
+    right: 70px;
+    top: 90px;
+}
+.hours {
+    width: 1140px;
+    background-color: #fff;
+    margin: 130px auto 40px;
+    height: 143px;
+    border-radius: 10px;
+    box-shadow: 0 0 14px 0 rgba(0,0,0,.08);
+    padding: 20px 30px 27px;
+    overflow: hidden;
+    text-align: left;
+}
+.hours h2 {
+    display: inline-block;
+    font-size: 18px;
+    color: #344665;
+    height: 21px;
+    line-height: 21px;
+    margin-bottom: 22px;
+    margin-right: 10px;
+    font-weight: 400;
+}
+.hours .link {
+    display: inline-block;
+    color: #8a9baf;
+    font-size: 12px;
+    height: 21px;
+    line-height: 21px;
+    position: relative;
+    top: -2px;
+}
+.hours h2::before{
+    content: '';
+    display: inline-block;
+    height: 7px;
+    width: 7px;
+    overflow: hidden;
+    margin-right: 10px;
+    margin-bottom: 2px;
+    background: #344665;
+    border-radius: 50%;
+}
+.two_btn {
+    width: 52px;
+    height: 22px;
+    float: right;
+   
+}
+.left {
+    display: inline-block;
+    width: 22px;
+    height: 22px;
+    margin-right: 3px;
+    background: url(/data/img/left_btn.png) no-repeat;
+}
+.right {
+    display: inline-block;
+    width: 22px;
+    height: 22px;
+    background: url(/data/img/left_btn.png) no-repeat;
+    rotate: 180deg;
+}
+.see {
+    height: 104px;
+    overflow: hidden;
+}
+.hours ul {
+    display: inline-flex;
+    gap: 0px;
+    width: auto;
+    height: 100px;
+    white-space: nowrap; 
+    
+}
+.hours ul li {
+    display: flex;
+    flex-direction: column;
+    padding: 0;
+    width: 40px;
+    height: 100px;
+    margin-right: 60px;
+    text-align: center;
+}
+.hours ul li .text_time {
+    font-size: 14px;
+    color: #8a9baf;
+    line-height: 14px;
+    height: 14px;
+    margin-bottom: 24px;
+
+}
+.hours ul li img {
+    width: 30px;
+    height: 30px;
+    margin: 0 auto;
+    margin-bottom: 18px;
+}
+.hours ul li p {
+    font-family: "PingFang SC", "Microsoft YaHei", Simsun, Helvetica, Arial, sans-serif;
+    height: 14px;
+    font-size: 14px;
+    line-height: 14px;
+    color: #384c78;
 }
