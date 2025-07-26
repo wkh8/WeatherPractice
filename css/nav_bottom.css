@@ -93,7 +93,7 @@
     overflow: hidden;
     text-align: left;
 }
-.hours h2 {
+.hours h2,.seven_day h2 {
     display: inline-block;
     font-size: 18px;
     color: #344665;
@@ -112,7 +112,8 @@
     position: relative;
     top: -2px;
 }
-.hours h2::before{
+.hours h2::before,
+.seven_day h2::before{
     content: '';
     display: inline-block;
     height: 7px;
