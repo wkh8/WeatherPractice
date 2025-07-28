@@ -8,14 +8,14 @@ input::placeholder {
 }
 body {
     background-color: silver;
-}
-.back {
-    text-align: center;
-    width: 2560px;
-    margin: 0px auto;
-    height: 595px;
     background: url(/data/img/background.jpg) no-repeat;
+    background-position: center top;
+}
+  
 
+.back {
+    color: black;
+   
 }
 .header {
     border-bottom:1px solid rgba(255, 255, 255, .24) ;
