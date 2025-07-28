@@ -38,6 +38,7 @@ export function render_7d(sevenday,yesterday){//7日数据
 console.log(arr);
 render_7d_child(arr)//渲染7天的天气预报
 render_chart(arr)//渲染折线图
+add_15d()//插入15d
 })
 
 
@@ -70,6 +71,40 @@ function render_7d_child(arr){//渲染7d
             </li>
         `
     }
+    //插入风级
+    const n_wind=document.querySelector('.wind')
+    n_wind.innerHTML=`${arr[1].windDirDay} ${arr[1].windScaleDay}级`
+    //角度
+    let d
+    switch(arr[1].windDirDay){
+        case '北风':
+            d=180;
+            break
+        case '东北风':
+        d=225
+        break
+        case '东风':
+        d=270
+        break
+        case '东南风':
+        d=315
+        break
+        case "南风":
+        d=0
+        break
+        case "西南风":
+        d=45
+        break
+        case '西风':
+        d=90
+        break
+        case '西北风':
+        d=135
+        break;
+    }
+        const windIcon=document.querySelector('.wind_before')
+        windIcon.style.rotate=`${d}deg`
+
     //插入
     const aimul=document.querySelector('.seven_day ul')
     aimul.innerHTML=str
@@ -79,7 +114,7 @@ function render_7d_child(arr){//渲染7d
 Chart.register(ChartDataLabels);
 function render_chart(arr)
 {
-    const ctx = document.getElementById('myChart');//获取元素
+    const ctx = document.getElementById('myChart');//创建元素
 //横坐标
 const x=[0,1,2,3,4,5,6,7]
 let hightTemp=[]
@@ -163,8 +198,22 @@ const config = {
 //设置
 
 //设立
-const myChart = new Chart(ctx, config)
+if(Chart.getChart(ctx)){
+    Chart.getChart(ctx).destroy()
+}
+let myChart = new Chart(ctx, config)
+
 }
 
 
-//以上为七日天气预报
+
+//15日天气预报的插入
+function add_15d(){
+document.querySelector('.weather15d').href=`https://www.weather.com.cn/weather15d/${JSON.parse(localStorage.getItem('code')).code}.shtml`
+}
+
+
+//以上为七日天气预报中的内容
+
+
+

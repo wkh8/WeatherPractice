@@ -38,7 +38,11 @@ function setAllCity(){
         localStorage.setItem('WeatherCity', JSON.stringify(AllCity))
     })
 }
-setAllCity()
+if(!('WeatherCity' in localStorage)){
+    setAllCity()
+}
+
+
 //获取到城市
 const AllCity = JSON.parse(localStorage.getItem('WeatherCity'))
 
@@ -109,6 +113,7 @@ search_city.addEventListener('input',
 
 //初始化天气代码
 const WeatherCode = { code: default_last.code }
+localStorage.setItem('code', JSON.stringify(WeatherCode))
 //检测天气代码改变
 const nowCode = new Proxy(WeatherCode, {
     set(target, key, val) {

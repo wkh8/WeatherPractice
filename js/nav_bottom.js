@@ -19,9 +19,7 @@ export function render_now(res){
 
         //nowaqi
 
-        //旋转风也许要写在逐天中？
-        const windIcon=document.querySelector('.wind_before')
-        windIcon.style.rotate=`${f.data.now.wind360}deg`
+
         //湿度
         const humi=document.querySelector('.humidity')
         humi.innerHTML=`湿度 ${f.data.now.humidity}%`
