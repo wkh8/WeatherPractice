@@ -411,3 +411,16 @@ function default_location(){//默认渲染
 //第一次渲染
 default_location()
 render(nowCode)
+
+
+
+
+
+
+
+
+//引入css
+import '../css/base.css'
+import '../css/main_body.css'
+import '../css/nav_bottom.css'
+import '../css/nav.css'

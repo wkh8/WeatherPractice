@@ -1,28 +1,37 @@
 const HtmlWebpackPlugin = require('html-webpack-plugin')
 const MiniCssExtractPlugin = require('mini-css-extract-plugin')
 const path = require('path')
+const CopyWebpackPlugin = require('copy-webpack-plugin');
 
-module.exports={
+module.exports = {
     //入口
-    entry:path.resolve(__dirname,'js/nav.js'),
+    entry: path.resolve(__dirname, 'js/nav.js'),
     output: {
-        path:path.resolve(__dirname,'finally'),
-        filename:'finally_index.js',
-        clean:true//生成打包内容之前溴铵清空输出目录
+        path: path.resolve(__dirname, 'finally'),
+        filename: 'finally_index.js',
+        clean: true,
+        assetModuleFilename: 'data/img/[name][ext]'
     },
     plugins: [
         new HtmlWebpackPlugin({
-            template:path.resolve(__dirname,'/index.html'),
-            filename:path.resolve(__dirname,'finally/finally_index.html')
+            template: './index.html',
+            filename: 'finally_index.html',
         }),
-        new MiniCssExtractPlugin()
+        new MiniCssExtractPlugin({
+            filename: 'finally_index.css'
+        }),
+        new CopyWebpackPlugin({
+            patterns: [
+              { from: 'data', to: 'data' }   // 相对项目根
+            ]
+          })
 
     ],
-    module:{
-        rules:[{
+    module: {
+        rules: [{
             test: /\.css$/i,
-            use:[MiniCssExtractPlugin.loader,'css-loader']
+            use: [MiniCssExtractPlugin.loader, 'css-loader']
         },
-    ],
+        ],
     },
 }
