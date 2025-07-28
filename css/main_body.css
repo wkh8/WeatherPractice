@@ -58,7 +58,6 @@ canvas {
     float: left;
     width: 12.5%;
     height: 100%;
-    border-radius: 20px;
     padding-top: 11px;
     padding-bottom: 25px;
 }
@@ -114,4 +113,13 @@ canvas {
     color: #8a9baf;
     line-height: 12px;
     height: 12px;
+}
+
+/* 昨天设置颜色 */
+.main_body .seven_day ul li:first-of-type {
+    opacity: 0.3;
+}
+
+.main_body .seven_day ul li:nth-of-type(2) {
+    background-color: #f8faff;
 }
