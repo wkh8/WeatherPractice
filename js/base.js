@@ -16,12 +16,15 @@ function NowDate_1(){
         String(date.getDate()).padStart(2,'0'),
     ].join('')
     }
+ 
+export const cityUrl='https://n44t2at2rv.re.qweatherapi.com/geo/v2/city/lookup?location=北&range=cn&key=0f78c7eacd1d4118822553781c889ca8 '
+//https://n44t2at2rv.re.qweatherapi.com/geo/v2/city/lookup?location=北&range=cn&key=0f78c7eacd1d4118822553781c889ca8          '../data/localData/mohucitye.json'
 
-export const oneDayUrl='https://n44t2at2rv.re.qweatherapi.com/v7/indices/1d?type=0&location=101110101&key=0f78c7eacd1d4118822553781c889ca8'  //https://n44t2at2rv.re.qweatherapi.com/v7/indices/1d?type=0&location=101110101&key=0f78c7eacd1d4118822553781c889ca8
-export const sevenDayUrl='https://n44t2at2rv.re.qweatherapi.com/v7/weather/7d?location=101110101&key=0f78c7eacd1d4118822553781c889ca8'//https://n44t2at2rv.re.qweatherapi.com/v7/weather/7d?location=101110101&key=0f78c7eacd1d4118822553781c889ca8
-export const allHourUrl='https://n44t2at2rv.re.qweatherapi.com/v7/weather/24h?location=101110101&key=0f78c7eacd1d4118822553781c889ca8'//https://n44t2at2rv.re.qweatherapi.com/v7/weather/24h?location=101110101&key=0f78c7eacd1d4118822553781c889ca8
-export const nowUrl='https://n44t2at2rv.re.qweatherapi.com/v7/weather/now?location=101110101&key=0f78c7eacd1d4118822553781c889ca8'    //https://n44t2at2rv.re.qweatherapi.com/v7/weather/now?location=101110101&key=0f78c7eacd1d4118822553781c889ca8   
-export const yesterdayUrl=`https://n44t2at2rv.re.qweatherapi.com/v7/historical/weather?location=101010100&date=${NowDate_1()}&key=0f78c7eacd1d4118822553781c889ca8`//https://n44t2at2rv.re.qweatherapi.com/v7/historical/weather?location=101010100&date=${NowDate()}&key=0f78c7eacd1d4118822553781c889ca8//注意时间
+export const oneDayUrl='https://n44t2at2rv.re.qweatherapi.com/v7/indices/1d?type=0&location=101110101&key=0f78c7eacd1d4118822553781c889ca8'  //https://n44t2at2rv.re.qweatherapi.com/v7/indices/1d?type=0&location=101110101&key=0f78c7eacd1d4118822553781c889ca8  '../data/localData/1d.json'
+export const sevenDayUrl='https://n44t2at2rv.re.qweatherapi.com/v7/weather/7d?location=101110101&key=0f78c7eacd1d4118822553781c889ca8 '//https://n44t2at2rv.re.qweatherapi.com/v7/weather/7d?location=101110101&key=0f78c7eacd1d4118822553781c889ca8         '../data/localData/7d.json'
+export const allHourUrl='https://n44t2at2rv.re.qweatherapi.com/v7/weather/24h?location=101110101&key=0f78c7eacd1d4118822553781c889ca8'//https://n44t2at2rv.re.qweatherapi.com/v7/weather/24h?location=101110101&key=0f78c7eacd1d4118822553781c889ca8  '../data/localData/24h.json'
+export const nowUrl='https://n44t2at2rv.re.qweatherapi.com/v7/weather/now?location=101110101&key=0f78c7eacd1d4118822553781c889ca8'    //https://n44t2at2rv.re.qweatherapi.com/v7/weather/now?location=101110101&key=0f78c7eacd1d4118822553781c889ca8     '../data/localData/now.json'
+export const yesterdayUrl=`https://n44t2at2rv.re.qweatherapi.com/v7/historical/weather?location=101010100&date=${NowDate_1()}&key=0f78c7eacd1d4118822553781c889ca8`//https://n44t2at2rv.re.qweatherapi.com/v7/historical/weather?location=101010100&date=${NowDate_1()}&key=0f78c7eacd1d4118822553781c889ca8  '../data/localData/yesterday.json'
 
 export function debounce(fn, t) {
     let timer

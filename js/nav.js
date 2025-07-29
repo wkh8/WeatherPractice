@@ -7,7 +7,7 @@ import {
     nowUrl,//当前实况天气
     changeLocation,
     yesterdayUrl,//改变api的城市代码
-
+    cityUrl,
 
 } from "./base.js"
 
@@ -30,24 +30,11 @@ const default_last=JSON.parse(localStorage.getItem('default_last'))||{name:'陕�
 // console.log(default_last);
 
 //nav_导航栏
-// 获取所有城市 本地存储
-function setAllCity(){
-    axios({
-        url: '../data/localData/city.json'
-    }).then(response => {
-        const AllCity = response.data
-        localStorage.setItem('WeatherCity', JSON.stringify(AllCity))
-    })
-}
-if(!('WeatherCity' in localStorage)){
-    setAllCity()
-}
 
 
-//获取到城市
-const AllCity = JSON.parse(localStorage.getItem('WeatherCity'))
 
-let AimCity
+
+let AimCity=[]
 //搜索节流
 //添加事件
 const search_city = document.querySelector(`.search_city`)
@@ -69,8 +56,9 @@ search_city.addEventListener('blur', function () {
 })
 //搜索框添加事件
 search_city.addEventListener('input',
-    debounce(function () {
+    debounce(async()=> {
         // console.log('更新搜索结果');
+        try{
         search_list_ul.innerHTML = ''
         let key = search_city.value
         if (key !== "") {//不为空字符串搜索
@@ -80,10 +68,26 @@ search_city.addEventListener('input',
             search_list.style.display = 'block'//给出搜索框
             // console.log(key);//测试
 
-            AimCity = AllCity.filter(function (item, index) {
-                return item.name.includes(key)
-            })
+            //获取aimcity
+             const res= await getApiData(changeLocation(cityUrl,key))
+             
+             const fis=res.data.location||[]
+            //  初始化
+            AimCity=[]
+             //处理成之前的模式
+            for(let i=0;i<fis.length;i++){
+               const strname=[fis[i].adm1,fis[i].adm2,fis[i].name].filter(Boolean).
+               filter((v,r,arr)=>arr.indexOf(v)===r).join(',')
+               AimCity.push({name:strname,
+                code:fis[i].id,
+                location:fis[i].adm1+' '+fis[i].name
+                   })
+            }
+            
+                
 
+
+           
             // console.log(AimCity);//测试
             //处理Aimcity
             if (AimCity.length !== 0) {
@@ -92,7 +96,7 @@ search_city.addEventListener('input',
                         new RegExp(`(${key})`, 'gi'),
                         '<span class="highlight">$1</span>'
                     );
-                    return `<li data-code="${item.code}">${highlightedName}</li>`;
+                    return `<li data-code="${item.code}"  data-location="${item.location}">${highlightedName}</li>`;
                 })
                 search_list_ul.innerHTML = AimCity.join('')
                 // console.log(AimCity);
@@ -106,7 +110,12 @@ search_city.addEventListener('input',
             hot_city.style.display = 'block'//给出热门城市
             search_list.style.display = 'none'//隐藏搜索框
         }
-    }, 300)
+    }
+    catch(e){
+        console.log(e);
+        
+    }
+}, 500)
 
 
 
@@ -137,11 +146,10 @@ search_li.addEventListener('click', function (e) {
         search_city.value = ''
         //有代码才改变
         if (e.target.dataset.code) {
-            const locationName =document.querySelector('.nav_p')
-            locationName.innerHTML=e.target.innerHTML.match(/[\u4e00-\u9fa5,]/g)?.join('')
+            navP.innerHTML= e.target.dataset.location
             nowCode.code = e.target.dataset.code
             addhistory({
-                name:locationName.innerHTML.match(/[\u4e00-\u9fa5,]/g)?.join('').slice(navP.innerHTML.lastIndexOf(',')+1),
+                name:navP.innerHTML.slice(navP.innerHTML.lastIndexOf(' ')+1),
                 // navP.innerHTML.slice(navP.innerHTML.lastIndexOf(',')+1)
                 code:e.target.dataset.code
             })
@@ -215,7 +223,7 @@ const ChangeConcern = new Proxy(arrConcern, {
 function judge_nowCity(){
     const willchange=document.querySelector('.nav_a:last-of-type')//得到要改变的关注按钮
     for(let i=0;i<arrConcern.length;i++){
-        if(arrConcern[i]&&nowCode.code===Number(arrConcern[i].code)){
+        if(arrConcern[i]&&Number(nowCode.code)===Number(arrConcern[i].code)){
             // console.log('切换');
             willchange.innerHTML=`[已关注]`
             return
@@ -299,7 +307,6 @@ concernLi.addEventListener('click',function(e){
         if(nowCode.code!==Number(parent.dataset.code)){
             //nowcode
             nowCode.code=Number(parent.dataset.code)
-            const willchangep=document.querySelector('nav_p')
             navP.innerHTML=(e.target.parentElement).firstElementChild.firstElementChild.innerHTML
         }
     }
@@ -408,8 +415,8 @@ render(nowCode)
 
 
 //引入css
-import '../css/base.css'
-import '../css/main_body.css'
-import '../css/nav_bottom.css'
-import '../css/nav.css'
-import '../css/footer.css'
+// import '../css/base.css'
+// import '../css/main_body.css'
+// import '../css/nav_bottom.css'
+// import '../css/nav.css'
+// import '../css/footer.css'
