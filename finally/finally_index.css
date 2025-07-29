@@ -8,14 +8,8 @@ input::placeholder {
 }
 body {
     background-color: silver;
-}
-.back {
-    text-align: center;
-    width: 2560px;
-    margin: 0px auto;
-    height: 595px;
     background: url(data/img/background.jpg) no-repeat;
-
+    background-position: center top;
 }
 .header {
     border-bottom:1px solid rgba(255, 255, 255, .24) ;
@@ -163,6 +157,122 @@ canvas {
 
 .main_body .seven_day ul li:nth-of-type(2) {
     background-color: #f8faff;
+}
+
+
+
+/* 生活指数 */
+.daily_index {
+    width: 430px;
+    height: 521px;
+    float: right;
+    background-color: #fff;
+}
+.daily_index h2 {
+    float: left;
+    font-size: 18px;
+    color: #344665;
+    height: 21px;
+    line-height: 21px;
+    margin-bottom: 6px;
+    margin-top: 6px;
+    font-weight: 400;
+}
+.daily_index h2::before{
+    content: '';
+    float: left;
+    height: 7px;
+    width: 7px;
+    overflow: hidden;
+    margin-right: 10px;
+    background-color: #344665;
+    border-radius: 50%;
+    margin-top: 8px;
+}
+.daily_twoBtn {
+    width: 52px;
+    height: 22px;
+    float: right;
+    margin-top: 7px;
+}
+.daily_left {
+    float: left;
+    width: 22px;
+    height: 22px;
+    background: url(data/img/left_btn.png);
+}
+.daily_right {
+    float: right;
+    width: 22px;
+    height: 22px;
+    background: url(data/img/left_btn.png);
+    rotate: 180deg;
+}
+.daily_index ul {
+    clear: both;
+    width: 890px;
+    height: 480px;
+    display: flex;
+    background-color: #fff;
+    flex-wrap: wrap;
+    list-style: none;
+    justify-content: space-between;
+    transition: all 1.2s;
+}
+.daily_index .window {
+    clear:both;
+    width: 445px;
+    height: 470px;
+    overflow: hidden;
+    padding-top: 18px;
+}
+.daily_index ul li {
+    width: 200px;
+    height: 140px;
+    float: left;
+    background-color: #fff;
+    box-shadow: 0 0 14px 0 rgba(0,0,0,.08);
+    border-radius: 10px;
+    text-align: center;
+    overflow:hidden ;
+}
+.daily_index ul li .daily_son{
+    transition: all 0.7s;
+}
+.daily_index ul li .daily_son:hover {
+    transform: translateY(-140px);
+}
+.daily_index ul li .daily_son .top {
+    box-sizing: border-box;
+    padding-top: 38px;
+    width: 200px;
+    height: 140px;
+}
+.daily_index ul li .daily_son .top img {
+    display: block;
+    width: 34px;
+    width: 34px;
+    margin: 0 auto;
+    margin-bottom: 12px;
+}
+.daily_index ul li .daily_son .top p {
+    font-size: 16px;
+    color: #384c78;
+    line-height: 22px;
+}
+.daily_index ul li .daily_son .down {
+    padding: 0 20px;
+    vertical-align: middle;
+    text-align: justify;
+    display: table-cell;
+    box-sizing: border-box;
+    font-size: 13px;
+    color: #384c78;
+    line-height: 1.5;
+    overflow: hidden;
+    width: 200px;
+    height: 140px;
+    font-family: "PingFang SC", "Microsoft YaHei", Simsun, Helvetica, Arial, sans-serif;
 }
 
 .now_container {
@@ -654,5 +764,64 @@ display: block;
 .search_list ul li .highlight {
     color: #448aff;
     pointer-events: none;
+}
+
+.footer {
+    text-align: center;
+    width: 100%;
+    height: 264px;
+    background-color: #3a4570;
+    margin-top: 40px;
+}
+
+.images {
+    height: 40px;
+    padding-top: 50px;
+    padding-bottom: 35px;
+}
+
+.footer .images a {
+    display: inline-block;
+    width: 150px;
+    height: 40px;
+    margin: 0 31px;
+}
+
+.footer .images a:nth-of-type(1) {
+    background: url(data/img/footerImages1.png) no-repeat;
+}
+
+.footer .images a:nth-of-type(2) {
+    background: url(data/img/footerImages2.png) no-repeat;
+}
+
+.footer .images a:nth-of-type(3) {
+    background: url(data/img/footerImages3.png) no-repeat;
+}
+.footer_contain {
+    width: 960px;
+    height: 130px;
+    margin: 0 auto;
+}
+.footer_contain .a {
+    color: #fff;
+    height: 28px;
+    margin-bottom: 15px;
+}
+.footer_contain .a a {
+    color: #fff;
+    font-size: 12px;
+}
+.footer_contain .a a:hover ,
+.ban a:hover {
+    text-decoration:underline;
+}
+.footer_contain div {
+    color: #fff;
+    font-size: 12px;
+    height: 28px;
+    text-align: center;
+    line-height: 28px;
+    margin-bottom: 15px;
 }
 

@@ -7,7 +7,7 @@ import {
     nowUrl,//当前实况天气
     changeLocation,
     yesterdayUrl,//改变api的城市代码
- 
+
 
 } from "./base.js"
 
@@ -20,13 +20,14 @@ import {
 } from './hours.js'
 import {
     render_7d, //七日
+    render_OneDay,//生活指数
 } from './main_body.js'
 
 
 
 const default_last=JSON.parse(localStorage.getItem('default_last'))||{name:'陕西,西安',code:101110101}
 //默认渲染
-console.log(default_last);
+// console.log(default_last);
 
 //nav_导航栏
 // 获取所有城市 本地存储
@@ -390,17 +391,7 @@ function render() {  // 默认渲染
     render_now(getApiData(changeLocation(nowUrl, String(nowCode.code))))//实况
 
 }
-//生活指数渲染
-function render_OneDay(res) {
 
-    res.then(f => {
-        let res = f.data
-
-
-
-
-    })
-}
 
 
 
@@ -417,7 +408,8 @@ render(nowCode)
 
 
 //引入css
-// import '../css/base.css'
-// import '../css/main_body.css'
-// import '../css/nav_bottom.css'
-// import '../css/nav.css'
+import '../css/base.css'
+import '../css/main_body.css'
+import '../css/nav_bottom.css'
+import '../css/nav.css'
+import '../css/footer.css'
