@@ -28,7 +28,7 @@ import {
 
 
 
-const default_last=JSON.parse(localStorage.getItem('default_last'))||{name:'陕西,西安',code:101110101}
+let default_last=JSON.parse(localStorage.getItem('default_last'))||{name:'陕西,西安',code:101110101,flag:true}
 //默认渲染
 // console.log(default_last);
 
@@ -57,7 +57,7 @@ search_city.addEventListener('blur', function () {
     }, 200)
 
 })
-//搜索框添加事件
+//搜索框的事件
 search_city.addEventListener('input',
     debounce(async()=> {
         // console.log('更新搜索结果');
@@ -95,11 +95,11 @@ search_city.addEventListener('input',
             //处理Aimcity
             if (AimCity.length !== 0) {
                 AimCity = AimCity.map(function (item) {
-                    const highlightedName = item.name.replace(
+                    const highlightedName = item.location.replace(
                         new RegExp(`(${key})`, 'gi'),
                         '<span class="highlight">$1</span>'
                     );
-                    return `<li data-code="${item.code}"  data-location="${item.location.slice(item.location.indexOf(' '))}">${highlightedName}</li>`;
+                    return `<li data-code="${item.code}"  data-location="${item.location}">${highlightedName}</li>`;
                 })
                 search_list_ul.innerHTML = AimCity.join('')
                 // console.log(AimCity);
@@ -152,7 +152,7 @@ search_li.addEventListener('click', function (e) {
             navP.innerHTML= e.target.dataset.location
             nowCode.code = e.target.dataset.code
             addhistory({
-                name:navP.innerHTML.slice(navP.innerHTML.lastIndexOf(' ')+1),
+                name:e.target.dataset.location.slice(navP.innerHTML.lastIndexOf(' ')+1),
                 // navP.innerHTML.slice(navP.innerHTML.lastIndexOf(',')+1)
                 code:e.target.dataset.code
             })
@@ -161,7 +161,7 @@ search_li.addEventListener('click', function (e) {
 
     }
 })
-//添加关注
+
 const arrConcern = arrConcern1()
 function arrConcern1(){
     if(JSON.parse(localStorage.getItem('arrConcern'))){
@@ -257,7 +257,7 @@ addConcern.addEventListener('click', function (e) {
 
         let nowdata =JSON.parse(localStorage.getItem('7ddata')).daily[0]
         if (ChangeConcern.length !== 5) {
-            ChangeConcern.push({name:navP.innerHTML.slice(navP.innerHTML.lastIndexOf(',')+1),code:nowCode.code,
+            ChangeConcern.push({name:navP.innerHTML.slice(navP.innerHTML.lastIndexOf(' ')+1),code:nowCode.code,
                 data:{
                     weatherName:nowdata.textDay,
                     Max:nowdata.tempMax,
@@ -282,10 +282,29 @@ addConcern.addEventListener('click', function (e) {
 
 //添加渲染关注城市//用于监听数组函数调用
 function render_concern(arr) {
+    console.log('arrrrrrr');
+    
+    console.log(arr);
+    
     const concernLi = document.querySelector(`.concern ul`)
     let str = ''
    
         for (let i=0;arrConcern[i]&&i<arr.length;i++) {
+
+            if(Number(arr[i].code)===Number(default_last.code)&&(!default_last.flag)){
+                str= str+ `<li data-code="${arr[i].code}">
+           <p class="default_color">
+           <span>${arr[i].name}</span>
+           <a class="set_default">取消默认</a>
+           </p>
+            <p class="weather" data-icon="${arr[i].data.icon}">${arr[i].data.weatherName}</p>
+            <p class="temperature">${arr[i].data.Min}°/${arr[i].data.Max}°</p>
+            <a class="delete_concern"></a>
+            </li>`
+            }
+            else{
+
+            
             str= str+ `<li data-code="${arr[i].code}">
            <p>
            <span>${arr[i].name}</span>
@@ -295,7 +314,7 @@ function render_concern(arr) {
             <p class="temperature">${arr[i].data.Min}°/${arr[i].data.Max}°</p>
             <a class="delete_concern"></a>
             </li>`
-            
+        }
         }
     
     concernLi.innerHTML=str
@@ -315,11 +334,19 @@ concernLi.addEventListener('click',function(e){
     }
     if(e.target.className==='set_default'){
         // 设为默认
+        if(e.target.innerHTML==='设为默认'){
+
         const aim= (e.target.parentElement).firstElementChild
-        localStorage.setItem('default_last',JSON.stringify({
-            name:aim.innerHTML,
-            code:Number(e.target.parentElement.parentElement.dataset.code)
-        }))
+        default_last={ name:aim.innerHTML,code:Number(e.target.parentElement.parentElement.dataset.code)}
+        localStorage.setItem('default_last',JSON.stringify(default_last))
+        }
+        else {
+            default_last={name:'陕西,西安',code:101110101,flag:true}
+            localStorage.setItem('default_last',JSON.stringify(default_last))
+        }
+        //重新渲染关注列表
+        render_concern(arrConcern)
+
     }
     if(e.target.className==='delete_concern')
     {

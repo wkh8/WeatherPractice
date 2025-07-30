@@ -278,7 +278,7 @@ background-color: #fff;
     rotate: 180deg;
 }
 .see {
-    height: 104px;
+    height: 106px;
     overflow: hidden;
 }
 .hours ul {
@@ -287,7 +287,6 @@ background-color: #fff;
     width: auto;
     height: 100px;
     white-space: nowrap; 
-    
 }
 .hours ul li {
     display: flex;

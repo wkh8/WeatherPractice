@@ -35,7 +35,7 @@ leftbtn.addEventListener('click',function(){
     }
      move.style.transform=`translateX(-${now}px)`
 })
-//
+//逐小时播放
 export function render_hours(res){
      let str=''
     res.then(f=>{
