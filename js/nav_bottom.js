@@ -4,7 +4,7 @@
 //当前渲染
 export function render_now(res){
     res.then(f => {
-        console.log(f.data);
+        // console.log(f.data);
         //发布时间
          document.querySelector('.push_time').innerHTML=`中央气象台${f.data.now.obsTime.slice(11, 16)}发布`
         
@@ -37,7 +37,7 @@ export function render_now(res){
 export function render_warning(res){
     res.then(f=>{
         let warningArr=f.data.warning
-        console.log(warningArr);
+        // console.log(warningArr);
         let str=''
 
         for(let item of warningArr){
@@ -77,7 +77,7 @@ export function render_warning(res){
 
 export function render_air(res){
     res.then(f=>{
-        console.log(f.data);
+        // console.log(f.data);
 
         let color
         let im

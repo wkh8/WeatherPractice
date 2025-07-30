@@ -16,7 +16,15 @@ function NowDate_1(){
         String(date.getDate()).padStart(2,'0'),
     ].join('')
     }
- 
+    function NowDate(){
+        const date =new Date()
+        date.setDate(date.getDate())
+        return[
+            date.getFullYear(),
+            String(date.getMonth()+1).padStart(2,'0'),
+            String(date.getDate()).padStart(2,'0'),
+        ].join('')
+        }
 export const cityUrl='../data/localData/mohucitye.json'
 //https://n44t2at2rv.re.qweatherapi.com/geo/v2/city/lookup?location=北&range=cn&key=0f78c7eacd1d4118822553781c889ca8          '../data/localData/mohucitye.json'
 export const oneDayUrl='../data/localData/1d.json'  //https://n44t2at2rv.re.qweatherapi.com/v7/indices/1d?type=0&location=101110101&key=0f78c7eacd1d4118822553781c889ca8  '../data/localData/1d.json'
@@ -26,6 +34,9 @@ export const nowUrl='../data/localData/now.json'    //https://n44t2at2rv.re.qwea
 export const yesterdayUrl=`../data/localData/yesterday.json`//https://n44t2at2rv.re.qweatherapi.com/v7/historical/weather?location=101010100&date=${NowDate_1()}&key=0f78c7eacd1d4118822553781c889ca8  '../data/localData/yesterday.json'
 export const warningUrl=`../data/localData/warning.json`//https://n44t2at2rv.re.qweatherapi.com/v7/warning/now?location=101110101&key=0f78c7eacd1d4118822553781c889ca8  '../data/localData/warning.json'
 export const airUrl=`../data/localData/air.json`//https://n44t2at2rv.re.qweatherapi.com/v7/air/now?location=101010100&key=0f78c7eacd1d4118822553781c889ca8 '../data/localData/air.json'
+export const sunUrl=`../data/localData/sun.json`//https://n44t2at2rv.re.qweatherapi.com/v7/astronomy/sun?location=101010100&date=${NowDate_1()}&key=0f78c7eacd1d4118822553781c889ca8
+
+
 export function debounce(fn, t) {
     let timer
     return function () {

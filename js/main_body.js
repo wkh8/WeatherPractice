@@ -66,7 +66,7 @@ function render_7d_child(arr) {//渲染7d
         `
     }
     //插入风级
-    console.log(arr);
+    // console.log(arr);
     
     const n_wind = document.querySelector('.wind')
     n_wind.innerHTML = `${arr[1].windDirDay} ${arr[1].windScaleDay}级`
@@ -237,8 +237,8 @@ export function render_OneDay(res) {
 
         let res = f.data.daily
         const Arr=[2,11,3,5,8,1,14,9,0,15,7,13]
-        console.log(Arr);
-        console.log(res);
+        // console.log(Arr);
+        // console.log(res);
         let str = ''
         const aimadd=document.querySelector('.daily_index .window ul')
 

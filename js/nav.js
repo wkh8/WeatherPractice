@@ -10,6 +10,7 @@ import {
     cityUrl,//城市天气代码
     warningUrl,//警报url
     airUrl,//空气指数
+    sunUrl,//日出日落
 } from "./base.js"
 
 import {
@@ -282,9 +283,9 @@ addConcern.addEventListener('click', function (e) {
 
 //添加渲染关注城市//用于监听数组函数调用
 function render_concern(arr) {
-    console.log('arrrrrrr');
+    // console.log('arrrrrrr');
     
-    console.log(arr);
+    // console.log(arr);
     
     const concernLi = document.querySelector(`.concern ul`)
     let str = ''
@@ -424,7 +425,7 @@ function render() {  // 默认渲染
     render_history()//历史记录渲染
     render_OneDay(getApiData(changeLocation(oneDayUrl, String(nowCode.code))))//指数
     render_7d(getApiData(changeLocation(sevenDayUrl, String(nowCode.code))),getApiData(changeLocation(yesterdayUrl, String(nowCode.code))))//七日预报(包括昨天数据)
-    render_hours(getApiData(changeLocation(allHourUrl, String(nowCode.code))))//逐小时播报
+    render_hours(getApiData(changeLocation(allHourUrl, String(nowCode.code))),getApiData(changeLocation(sunUrl, String(nowCode.code))))//逐小时播报
     render_now(getApiData(changeLocation(nowUrl, String(nowCode.code))))//实况
     render_warning(getApiData(changeLocation(warningUrl, String(nowCode.code))))
     render_air(getApiData(changeLocation(airUrl, String(nowCode.code))))

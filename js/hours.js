@@ -35,26 +35,31 @@ leftbtn.addEventListener('click',function(){
     }
      move.style.transform=`translateX(-${now}px)`
 })
-//逐小时播放
-export function render_hours(res){
-     let str=''
-    res.then(f=>{
-        for(let item of f.data.hourly){
-            let time=item.fxTime.slice(11,16)
-            let url=item.icon
-            let temp=item.temp
-            str= str+`
-            <li>
-                <p class="text_time">${time}</p>
-                <img src="/data/img/small${url}.png" alt="">
-                <p class="text_deg">${temp}°</p>
-            </li>
-            `
-        }
-        //加入至ul
-        const aimul=document.querySelector('.see ul')
-        aimul.innerHTML=str
+//处理数据
+export function render_hours(resfh,resfs){
+    Promise.all([resfh,resfs]).then(([fh,fs])=>{
+        console.log(fh.data);
+        console.log(fs.data);
+        
+        
     })
+    
 
    
 }
+
+
+
+
+// 渲染
+// str= str+`
+// <li>
+//     <p class="text_time">${time}</p>
+//     <img src="/data/img/small${url}.png" alt="">
+//     <p class="text_deg">${temp}°</p>
+// </li>
+// `
+// }
+// //加入至ul
+// const aimul=document.querySelector('.see ul')
+// aimul.innerHTML=str
