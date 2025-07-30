@@ -4,14 +4,11 @@
 
 export function render_7d(sevenday, yesterday) {//7日数据
     let arr = []
-    sevenday.then(f => {
-        arr = JSON.parse(JSON.stringify(f.data.daily))
-
-    })
-    yesterday.then(f => {
+    Promise.all([sevenday,yesterday]).then(([f7,fy])=>{
+        arr = JSON.parse(JSON.stringify(f7.data.daily))
         let minWind = 12
         let maxWind = 0;
-        for (let item of f.data.weatherHourly) {
+        for (let item of fy.data.weatherHourly) {
             if (minWind > Number(item.windScale)) {
                 minWind = Number(item.windScale)
             }
@@ -19,18 +16,15 @@ export function render_7d(sevenday, yesterday) {//7日数据
                 maxWind = Number(item.windScale)
             }
         }
-
-
         arr.unshift({
-            tempMax: f.data.weatherDaily.tempMax,
-            tempMin: f.data.weatherDaily.tempMin,
-            fxDate: f.data.weatherDaily.date,
-            textDay: f.data.weatherHourly[11].text,
-            iconDay: f.data.weatherHourly[11].icon,
-            textNight: f.data.weatherHourly[23].text,
-            iconNight: f.data.weatherHourly[23].icon,
+            tempMax: fy.data.weatherDaily.tempMax,
+            tempMin: fy.data.weatherDaily.tempMin,
+            fxDate: fy.data.weatherDaily.date,
+            textDay: fy.data.weatherHourly[11].text,
+            iconDay: fy.data.weatherHourly[11].icon,
+            textNight: fy.data.weatherHourly[23].text,
+            iconNight: fy.data.weatherHourly[23].icon,
             windScaleDay: `${minWind}-${maxWind}`,
-
         })
 
 
@@ -39,6 +33,7 @@ export function render_7d(sevenday, yesterday) {//7日数据
         render_chart(arr)//渲染折线图
         add_15d()//插入15d
     })
+
 
 
 }
@@ -71,6 +66,8 @@ function render_7d_child(arr) {//渲染7d
         `
     }
     //插入风级
+    console.log(arr);
+    
     const n_wind = document.querySelector('.wind')
     n_wind.innerHTML = `${arr[1].windDirDay} ${arr[1].windScaleDay}级`
     //角度

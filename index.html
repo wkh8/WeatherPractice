@@ -146,13 +146,49 @@
 
                     <p class="now_temp">36°</p>
                     <p class="weather_name">多云</p>
-                    <p class="now_aqi">？</p>
+                    <div class="now_aqi">
+                        <span>33 优</span>
+                        <div class="aqi">
+                            <div class="airtitle">
+                                空气质量指数
+                            </div>
+                          <ul class="addindex">
+                            <li>
+                                <p class="pm25">1</p>
+                                <p>PM2.5</p>
+                            </li>
+                            <li>
+                                <p class="pm10">1</p>
+                                <p>PM10</p>
+                            </li>
+                            <li>
+                                <p class="so2">1</p>
+                                <p>SO2</p>
+                            </li>
+                            <li>
+                                <p class="no2">1</p>
+                                <p>NO2</p>
+                            </li>
+                            <li>
+                                <p class="o3">1</p>
+                                <p>O3</p>
+                            </li>
+                            <li>
+                                <p class="co">1</p>
+                                <p>CO</p>
+                            </li>
+                          </ul>
+                        </div>
+                    </div>
+                    <ul class="warning">       
+                    </ul>
                 </div>
                 <div class="other">
                     <div class="wind_before"></div>
                     <span class="wind">东风 3-4级</span>
                     <span class="humidity">湿度 51%</span>
                     <span class="kPa">气压 956hPa</span>
+                    
                 </div>
                 <div class="now_icon"></div>
             </div>
@@ -176,7 +212,7 @@
             </div>
             <div class="main_body">
                 <div class="seven_day">
-                    <h2>七日天气预报</h2>
+                    <h2>7日天气预报</h2>
                     <a href="" class="weather15d">15日天气预报</a>
                     <ul>
 
@@ -249,7 +285,7 @@
         <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
         <script type="module" src="./js/base.js"></script>
         <script type="module" src="./js/nav.js"></script>
-        <script type="module" src="./js/nav_bottom.js"></script>
+        <script type="module" src="./js/nav_bottom.js" ></script>
         <script type="module" src="./js/Sliding_windows.js"></script>
         <script type="module" src="./js/hours.js"></script>
         <script type="module" src="./js/main_body.js"></script>

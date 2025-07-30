@@ -7,12 +7,15 @@ import {
     nowUrl,//当前实况天气
     changeLocation,
     yesterdayUrl,//改变api的城市代码
-    cityUrl,
-
+    cityUrl,//城市天气代码
+    warningUrl,//警报url
+    airUrl,//空气指数
 } from "./base.js"
 
 import {
     render_now,  //实况
+    render_warning,//警报
+    render_air,//空气指数
 } from "./nav_bottom.js"
 
 import {
@@ -96,7 +99,7 @@ search_city.addEventListener('input',
                         new RegExp(`(${key})`, 'gi'),
                         '<span class="highlight">$1</span>'
                     );
-                    return `<li data-code="${item.code}"  data-location="${item.location}">${highlightedName}</li>`;
+                    return `<li data-code="${item.code}"  data-location="${item.location.slice(item.location.indexOf(' '))}">${highlightedName}</li>`;
                 })
                 search_list_ul.innerHTML = AimCity.join('')
                 // console.log(AimCity);
@@ -396,7 +399,8 @@ function render() {  // 默认渲染
     render_7d(getApiData(changeLocation(sevenDayUrl, String(nowCode.code))),getApiData(changeLocation(yesterdayUrl, String(nowCode.code))))//七日预报(包括昨天数据)
     render_hours(getApiData(changeLocation(allHourUrl, String(nowCode.code))))//逐小时播报
     render_now(getApiData(changeLocation(nowUrl, String(nowCode.code))))//实况
-
+    render_warning(getApiData(changeLocation(warningUrl, String(nowCode.code))))
+    render_air(getApiData(changeLocation(airUrl, String(nowCode.code))))
 }
 
 
