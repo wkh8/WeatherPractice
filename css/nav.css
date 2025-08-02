@@ -61,6 +61,14 @@
     list-style: none;
 
 }
+.concern ul > span {
+    display: block;
+    text-align: center;
+    color: #9f9f9f;
+    font-size: 14px;
+    line-height: 20px;
+    
+}
 .concern ul li {
     padding-left: 20px;
     height: 32px;
@@ -78,12 +86,17 @@
 .concern ul li:hover > .delete_concern {
     display: inline-block;
 }
-
+.concern ul li img {
+    line-height: 32px;
+    width: 20px;
+    height: 20px;
+    vertical-align: middle;
+}
 .concern ul li p{
     display: inline-block;
 }
 .concern ul li p:nth-of-type(1){
-    width: 166px;
+    width: 146px;
 }
 .set_default {
     display: none;

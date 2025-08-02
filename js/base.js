@@ -16,16 +16,16 @@ function NowDate_1(){
         String(date.getDate()).padStart(2,'0'),
     ].join('')
     }
- 
-export const cityUrl='../data/localData/mohucitye.json'
+ //https://api.map.baidu.com/location/ip?ip=26.113.47.173&ak=AtnHKBZzVyjYZEhY1QGHNfxnN86bg0Fu
+export const cityUrl='https://n44t2at2rv.re.qweatherapi.com/geo/v2/city/lookup?location=北&range=cn&key=0f78c7eacd1d4118822553781c889ca8'
 //https://n44t2at2rv.re.qweatherapi.com/geo/v2/city/lookup?location=北&range=cn&key=0f78c7eacd1d4118822553781c889ca8          '../data/localData/mohucitye.json'
-export const oneDayUrl='../data/localData/1d.json'  //https://n44t2at2rv.re.qweatherapi.com/v7/indices/1d?type=0&location=101110101&key=0f78c7eacd1d4118822553781c889ca8  '../data/localData/1d.json'
-export const sevenDayUrl='../data/localData/7d.json'//https://n44t2at2rv.re.qweatherapi.com/v7/weather/7d?location=101110101&key=0f78c7eacd1d4118822553781c889ca8         '../data/localData/7d.json'
-export const allHourUrl='../data/localData/24h.json'//https://n44t2at2rv.re.qweatherapi.com/v7/weather/24h?location=101110101&key=0f78c7eacd1d4118822553781c889ca8  '../data/localData/24h.json'
-export const nowUrl='../data/localData/now.json'    //https://n44t2at2rv.re.qweatherapi.com/v7/weather/now?location=101110101&key=0f78c7eacd1d4118822553781c889ca8     '../data/localData/now.json'
-export const yesterdayUrl=`../data/localData/yesterday.json`//https://n44t2at2rv.re.qweatherapi.com/v7/historical/weather?location=101010100&date=${NowDate_1()}&key=0f78c7eacd1d4118822553781c889ca8  '../data/localData/yesterday.json'
-export const warningUrl=`../data/localData/warning.json`//https://n44t2at2rv.re.qweatherapi.com/v7/warning/now?location=101110101&key=0f78c7eacd1d4118822553781c889ca8  '../data/localData/warning.json'
-export const airUrl=`../data/localData/air.json`//https://n44t2at2rv.re.qweatherapi.com/v7/air/now?location=101010100&key=0f78c7eacd1d4118822553781c889ca8 '../data/localData/air.json'
+export const oneDayUrl='https://n44t2at2rv.re.qweatherapi.com/v7/indices/1d?type=0&location=101110101&key=0f78c7eacd1d4118822553781c889ca8'  //https://n44t2at2rv.re.qweatherapi.com/v7/indices/1d?type=0&location=101110101&key=0f78c7eacd1d4118822553781c889ca8  '../data/localData/1d.json'
+export const sevenDayUrl='https://n44t2at2rv.re.qweatherapi.com/v7/weather/7d?location=101110101&key=0f78c7eacd1d4118822553781c889ca8'//https://n44t2at2rv.re.qweatherapi.com/v7/weather/7d?location=101110101&key=0f78c7eacd1d4118822553781c889ca8         '../data/localData/7d.json'
+export const allHourUrl='https://n44t2at2rv.re.qweatherapi.com/v7/weather/24h?location=101110101&key=0f78c7eacd1d4118822553781c889ca8'//https://n44t2at2rv.re.qweatherapi.com/v7/weather/24h?location=101110101&key=0f78c7eacd1d4118822553781c889ca8  '../data/localData/24h.json'
+export const nowUrl='https://n44t2at2rv.re.qweatherapi.com/v7/weather/now?location=101110101&key=0f78c7eacd1d4118822553781c889ca8'    //https://n44t2at2rv.re.qweatherapi.com/v7/weather/now?location=101110101&key=0f78c7eacd1d4118822553781c889ca8     '../data/localData/now.json'
+export const yesterdayUrl=`https://n44t2at2rv.re.qweatherapi.com/v7/historical/weather?location=101010100&date=${NowDate_1()}&key=0f78c7eacd1d4118822553781c889ca8`//https://n44t2at2rv.re.qweatherapi.com/v7/historical/weather?location=101010100&date=${NowDate_1()}&key=0f78c7eacd1d4118822553781c889ca8  '../data/localData/yesterday.json'
+export const warningUrl=`https://n44t2at2rv.re.qweatherapi.com/v7/warning/now?location=101110101&key=0f78c7eacd1d4118822553781c889ca8`//https://n44t2at2rv.re.qweatherapi.com/v7/warning/now?location=101110101&key=0f78c7eacd1d4118822553781c889ca8  '../data/localData/warning.json'
+export const airUrl=`https://n44t2at2rv.re.qweatherapi.com/v7/air/now?location=101010100&key=0f78c7eacd1d4118822553781c889ca8`//https://n44t2at2rv.re.qweatherapi.com/v7/air/now?location=101010100&key=0f78c7eacd1d4118822553781c889ca8 '../data/localData/air.json'
 export function debounce(fn, t) {
     let timer
     return function () {

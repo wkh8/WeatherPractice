@@ -3,10 +3,12 @@
     position: relative;
     height: 310px;
 }
-.ct_main{
+
+.ct_main {
     margin-bottom: 28px;
 }
-.push_time{
+
+.push_time {
     font-size: 14px;
     color: #fff;
     opacity: .6;
@@ -15,6 +17,7 @@
     margin-bottom: 20px;
     text-align: left;
 }
+
 .now_temp {
     text-align: left;
     display: inline-block;
@@ -23,14 +26,16 @@
     height: 86px;
     line-height: 86px;
 }
+
 .weather_name {
     display: inline-block;
     font-size: 28px;
     color: #fff;
     line-height: 45px;
     height: 45px;
-    margin-right:24px ;
+    margin-right: 24px;
 }
+
 .now_aqi {
     position: relative;
     border-radius: 18px;
@@ -43,9 +48,11 @@
     top: -7px;
     margin-right: 24px;
 }
-.now_aqi:hover > .aqi {
+
+.now_aqi:hover>.aqi {
     display: flex;
 }
+
 .now_aqi .aqi {
     border-radius: 6px;
     display: none;
@@ -57,6 +64,7 @@
     position: absolute;
     flex-wrap: wrap;
 }
+
 .now_aqi .aqi .airtitle {
     font-size: 18px;
     text-align: center;
@@ -65,6 +73,7 @@
     height: 42px;
     border-radius: 6px 6px 0 0;
 }
+
 .now_aqi .aqi .airtitle::before {
     content: '';
     position: absolute;
@@ -77,11 +86,13 @@
     background-color: inherit;
     z-index: 100;
 }
+
 .now_aqi .aqi ul {
     list-style: none;
     width: 254px;
     height: 126px;
 }
+
 .now_aqi .aqi ul li {
     box-sizing: border-box;
     float: left;
@@ -89,7 +100,30 @@
     height: 50%;
     border: 1px solid #efefef;
 }
-.now_aqi .aqi ul li p:nth-of-type(1){
+
+.now_aqi .aqi ul li:nth-of-type(1),
+.now_aqi .aqi ul li:nth-of-type(2) {
+    border-left: transparent;
+    border-top: transparent;
+}
+
+.now_aqi .aqi ul li:nth-of-type(3) {
+    border-left: transparent;
+    border-top: transparent;
+    border-right: transparent;
+}
+
+.now_aqi .aqi ul li:nth-of-type(4),
+.now_aqi .aqi ul li:nth-of-type(5) {
+    border-left: transparent;
+    border-top: transparent;
+}
+
+.now_aqi .aqi ul li:nth-of-type(6) {
+    border: transparent;
+}
+
+.now_aqi .aqi ul li p:nth-of-type(1) {
     color: #555;
     margin-top: 5px;
     font-size: 14px;
@@ -97,13 +131,15 @@
     height: 24px;
     text-align: center;
 }
-.now_aqi .aqi ul li p:nth-of-type(2){
+
+.now_aqi .aqi ul li p:nth-of-type(2) {
     font-size: 12px;
     color: #9f9f9f;
     line-height: 24px;
     height: 24px;
     text-align: center;
 }
+
 .now_aqi::before {
     content: '';
     float: left;
@@ -111,9 +147,10 @@
     height: 18px;
     border-radius: 50%;
     margin-right: 10px;
-  
+
 }
-.wind_before{
+
+.wind_before {
     display: inline-block;
     width: 20px;
     height: 20px;
@@ -122,6 +159,7 @@
     background: url(/data/img/south_wind.png) no-repeat;
     rotate: 0deg;
 }
+
 .humidity::before {
     content: '';
     display: inline-block;
@@ -132,7 +170,8 @@
     background: url(/data/img/humidity.png) no-repeat;
 
 }
-.kPa::before{
+
+.kPa::before {
     content: '';
     display: inline-block;
     width: 20px;
@@ -141,6 +180,7 @@
     vertical-align: middle;
     background: url(/data/img/kPA.png) no-repeat;
 }
+
 .other span {
     color: #fff;
     height: 20px;
@@ -148,9 +188,11 @@
     margin-right: 42px;
     font-size: 18px;
 }
+
 .warning {
     display: inline-block;
 }
+
 .warning li {
     text-wrap: nowrap;
     background-color: aqua;
@@ -165,21 +207,27 @@
     border-radius: 18px;
     font-size: 14px;
     color: #fff;
+
 }
-.warning li:hover >.cotain {
+
+.warning li:hover>.cotain {
     display: block;
+
 }
+
 .warning li .cotain {
+    z-index: 100;
     display: none;
-text-wrap:wrap;
-left: -105px;
-position: relative;
-top: 16px;
-height: auto;
-width: 254px;
-border-radius: 6px;
-background-color: #fff;
+    text-wrap: wrap;
+    left: -105px;
+    position: relative;
+    top: 16px;
+    height: auto;
+    width: 254px;
+    border-radius: 6px;
+    background-color: #fff;
 }
+
 .warning li .cotain .title::before {
     content: '';
     position: absolute;
@@ -192,6 +240,7 @@ background-color: #fff;
     background-color: inherit;
     z-index: -1;
 }
+
 .cotain .title {
     width: 100%;
     border-radius: 6px 6px 0 0;
@@ -201,12 +250,14 @@ background-color: #fff;
     line-height: 42px;
     background-color: rgb(110, 110, 26);
 }
+
 .cotain p {
     padding: 14px 20px 5px;
     font-size: 14px;
     color: #555;
     line-height: 24px;
 }
+
 .now_icon {
     position: absolute;
     width: 134px;
@@ -215,18 +266,21 @@ background-color: #fff;
     right: 70px;
     top: 90px;
 }
+
 .hours {
     width: 1140px;
     background-color: #fff;
     margin: 130px auto 40px;
     height: 143px;
     border-radius: 10px;
-    box-shadow: 0 0 14px 0 rgba(0,0,0,.08);
+    box-shadow: 0 0 14px 0 rgba(0, 0, 0, .08);
     padding: 20px 30px 27px;
     overflow: hidden;
     text-align: left;
 }
-.hours h2,.seven_day h2 {
+
+.hours h2,
+.seven_day h2 {
     display: inline-block;
     font-size: 18px;
     color: #344665;
@@ -236,6 +290,7 @@ background-color: #fff;
     margin-right: 10px;
     font-weight: 400;
 }
+
 .hours .link {
     display: inline-block;
     color: #8a9baf;
@@ -245,8 +300,9 @@ background-color: #fff;
     position: relative;
     top: -2px;
 }
+
 .hours h2::before,
-.seven_day h2::before{
+.seven_day h2::before {
     content: '';
     display: inline-block;
     height: 7px;
@@ -257,12 +313,14 @@ background-color: #fff;
     background: #344665;
     border-radius: 50%;
 }
+
 .two_btn {
     width: 52px;
     height: 22px;
     float: right;
-   
+
 }
+
 .left {
     display: inline-block;
     width: 22px;
@@ -270,6 +328,7 @@ background-color: #fff;
     margin-right: 3px;
     background: url(/data/img/left_btn.png) no-repeat;
 }
+
 .right {
     display: inline-block;
     width: 22px;
@@ -277,17 +336,20 @@ background-color: #fff;
     background: url(/data/img/left_btn.png) no-repeat;
     rotate: 180deg;
 }
+
 .see {
     height: 106px;
     overflow: hidden;
 }
+
 .hours ul {
     display: inline-flex;
     gap: 0px;
     width: auto;
     height: 100px;
-    white-space: nowrap; 
+    white-space: nowrap;
 }
+
 .hours ul li {
     display: flex;
     flex-direction: column;
@@ -297,6 +359,7 @@ background-color: #fff;
     margin-right: 60px;
     text-align: center;
 }
+
 .hours ul li .text_time {
     font-size: 14px;
     color: #8a9baf;
@@ -305,12 +368,14 @@ background-color: #fff;
     margin-bottom: 24px;
 
 }
+
 .hours ul li img {
     width: 30px;
     height: 30px;
     margin: 0 auto;
     margin-bottom: 18px;
 }
+
 .hours ul li p {
     font-family: "PingFang SC", "Microsoft YaHei", Simsun, Helvetica, Arial, sans-serif;
     height: 14px;

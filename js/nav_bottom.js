@@ -20,9 +20,6 @@ export function render_now(res){
         const nowicon=document.querySelector('.now_icon')
         nowicon.style.background=`url(/data/img/big${f.data.now.icon}.png)`
 
-        //nowaqi
-
-
         //湿度
         const humi=document.querySelector('.humidity')
         humi.innerHTML=`湿度 ${f.data.now.humidity}%`
@@ -95,10 +92,12 @@ export function render_air(res){
             im='../data/img/qingduwuran.png'
             break
             case '中度污染':
-
+             color='#ad788a'
+             im='../data/img/yanzhongwuran.png'
             break
             case '重度污染':
-            
+                 color='#ad788a'
+             im='../data/img/yanzhongwuran.png'
             break
             case '严重污染':
             color='#ad788a'

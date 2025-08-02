@@ -7,7 +7,7 @@ input::placeholder {
     color:rgba(255,255,255,.7);
 }
 body {
-    background-color: silver;
+    background-color: #f6f9fe;
     background: url(/data/img/background.jpg) no-repeat;
     background-position: center top;
 }
@@ -32,4 +32,7 @@ a {
 }
 .transition {
     transition: all 1s;
+}
+html::selection {
+    background-color:#690;
 }

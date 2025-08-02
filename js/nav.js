@@ -28,12 +28,11 @@ import {
 
 
 
-let default_last=JSON.parse(localStorage.getItem('default_last'))||{name:'陕西,西安',code:101110101,flag:true}
+let default_last=JSON.parse(localStorage.getItem('default_last'))||{name:'陕西 西安',code:101110101,flag:true}
 //默认渲染
 // console.log(default_last);
 
 //nav_导航栏
-
 
 
 
@@ -216,6 +215,7 @@ const ChangeConcern = new Proxy(arrConcern, {
         //删除后
         judge_nowCity()
 
+
         return  result
     }
 
@@ -282,13 +282,18 @@ addConcern.addEventListener('click', function (e) {
 
 //添加渲染关注城市//用于监听数组函数调用
 function render_concern(arr) {
+
     // console.log('arrrrrrr');
     
     // console.log(arr);
+    console.log(arr.length);
     
     const concernLi = document.querySelector(`.concern ul`)
     let str = ''
-   
+
+   if(arr.length===0){
+     str=`<span>点击“添加关注”添加城市哟~</span>`
+   }
         for (let i=0;arrConcern[i]&&i<arr.length;i++) {
 
             if(Number(arr[i].code)===Number(default_last.code)&&(!default_last.flag)){
@@ -297,7 +302,8 @@ function render_concern(arr) {
            <span>${arr[i].name}</span>
            <a class="set_default">取消默认</a>
            </p>
-            <p class="weather" data-icon="${arr[i].data.icon}">${arr[i].data.weatherName}</p>
+            <img src="./data/img/small${arr[i].data.icon}.png" alt="">
+            <p class="weather">${arr[i].data.weatherName}</p>
             <p class="temperature">${arr[i].data.Min}°/${arr[i].data.Max}°</p>
             <a class="delete_concern"></a>
             </li>`
@@ -310,6 +316,7 @@ function render_concern(arr) {
            <span>${arr[i].name}</span>
            <a class="set_default">设为默认</a>
            </p>
+            <img src="./data/img/small${arr[i].data.icon}.png" alt="">
             <p class="weather" data-icon="${arr[i].data.icon}">${arr[i].data.weatherName}</p>
             <p class="temperature">${arr[i].data.Min}°/${arr[i].data.Max}°</p>
             <a class="delete_concern"></a>
@@ -341,7 +348,7 @@ concernLi.addEventListener('click',function(e){
         localStorage.setItem('default_last',JSON.stringify(default_last))
         }
         else {
-            default_last={name:'陕西,西安',code:101110101,flag:true}
+            default_last={name:'陕西 西安',code:101110101,flag:true}
             localStorage.setItem('default_last',JSON.stringify(default_last))
         }
         //重新渲染关注列表
@@ -359,6 +366,7 @@ concernLi.addEventListener('click',function(e){
                 delete ChangeConcern[i]
                 arrConcern.splice(i,1)//666妙手回春
                 localStorage.setItem('arrConcern',JSON.stringify(arrConcern))
+                render_concern(arrConcern)
             }
         }
         // console.log(nowCode.code);

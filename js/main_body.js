@@ -5,6 +5,8 @@
 export function render_7d(sevenday, yesterday) {//7日数据
     let arr = []
     Promise.all([sevenday,yesterday]).then(([f7,fy])=>{
+        localStorage.setItem('7ddata',JSON.stringify(f7.data))
+        
         arr = JSON.parse(JSON.stringify(f7.data.daily))
         let minWind = 12
         let maxWind = 0;
