@@ -7,15 +7,9 @@ input::placeholder {
     color:rgba(255,255,255,.7);
 }
 body {
-    background-color: silver;
-}
-.back {
-    text-align: center;
-    width: 2560px;
-    margin: 0px auto;
-    height: 595px;
+    background-color: #f6f9fe;
     background: url(/data/img/background.jpg) no-repeat;
-
+    background-position: center top;
 }
 .header {
     border-bottom:1px solid rgba(255, 255, 255, .24) ;
@@ -38,4 +32,7 @@ a {
 }
 .transition {
     transition: all 1s;
+}
+html::selection {
+    background-color:#690;
 }

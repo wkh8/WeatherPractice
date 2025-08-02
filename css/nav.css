@@ -2,11 +2,12 @@
 /* nav样式 */
 
 .logo {
-    width: 140px;
-    height: 32px;
+    width: 164px;
+    height: 38px;
     position: absolute;
+    top: 15px;
     background: url(/data/img/0.webp) no-repeat ;
-    background-size:auto 32px ;
+    background-size:auto 38px ;
 }
 
 .nav_a{
@@ -60,6 +61,14 @@
     list-style: none;
 
 }
+.concern ul > span {
+    display: block;
+    text-align: center;
+    color: #9f9f9f;
+    font-size: 14px;
+    line-height: 20px;
+    
+}
 .concern ul li {
     padding-left: 20px;
     height: 32px;
@@ -70,16 +79,24 @@
 .concern ul li:hover{
     background-color: #f4f4f4;
 }
+.concern ul li:hover > p::after{
+    display: none;
+}
 .concern ul li:hover > p > .set_default,
 .concern ul li:hover > .delete_concern {
     display: inline-block;
 }
-
+.concern ul li img {
+    line-height: 32px;
+    width: 20px;
+    height: 20px;
+    vertical-align: middle;
+}
 .concern ul li p{
     display: inline-block;
 }
 .concern ul li p:nth-of-type(1){
-    width: 166px;
+    width: 146px;
 }
 .set_default {
     display: none;
@@ -93,6 +110,19 @@
     padding: 0 4px;
     border-radius: 4px;
     background-color: #f7f7f7;
+}
+.default_color::after {
+    content: '默认';
+    padding: 0 4px;
+    display: inline-block;
+    color: #63b6f6;
+    border: 1px solid #63b6f6;
+    border-radius: 3px;
+    margin-left: 5px;
+    font-size: 12px;
+    height: 18px;
+    line-height: 18px;
+    text-align: center;
 }
 .concern ul li p:nth-of-type(2){
     width: 120px;

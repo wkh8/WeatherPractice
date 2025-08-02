@@ -22,7 +22,7 @@ module.exports = {
         }),
         new CopyWebpackPlugin({
             patterns: [
-              { from: 'data', to: 'data' }   // 相对项目根
+              { from: 'data/img', to: 'data/img' }   // 相对项目根
             ]
           })
 
