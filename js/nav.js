@@ -30,21 +30,14 @@ import {
 }
 from './dom.js'
 
+function nav_main(){
+    let AimCity=[]
 
-let default_last=JSON.parse(localStorage.getItem('default_last'))||{name:'陕西 西安',code:101110101,flag:true}
-//默认渲染
-// console.log(default_last);
-
-//nav_导航栏
-
-
-
-let AimCity=[]
-//搜索节流
 //搜索框获得焦点
 dom.nav_searchCity.addEventListener('focus', function () {
     dom.nav_hotCity.style.display = 'block'
 })
+
 //搜索框失去焦点
 dom.nav_searchCity.addEventListener('blur', function () {
     setTimeout(function () {
@@ -54,6 +47,12 @@ dom.nav_searchCity.addEventListener('blur', function () {
     }, 200)
 
 })
+
+//离开按钮隐藏
+dom.nav_concernBtn.addEventListener('mouseleave', function () {
+    dom.nav_fullCity.style.display = 'none'
+})
+
 //搜索框的事件
 dom.nav_searchCity.addEventListener('input',
     debounce(async()=> {
@@ -121,23 +120,6 @@ dom.nav_searchCity.addEventListener('input',
 
 )//搜索框事件结束
 
-//初始化天气代码
-const WeatherCode = { code: default_last.code }
-localStorage.setItem('code', JSON.stringify(WeatherCode))
-//检测天气代码改变
-const nowCode = new Proxy(WeatherCode, {
-    set(target, key, val) {
-        // console.log(`属性 ${key} 从 ${target[key]} 变成 ${val}`);
-        target[key] = val
-        localStorage.setItem('code', JSON.stringify(WeatherCode))
-        //得到数据并渲染
-        render(nowCode)
-        //检测当前城市是否在其中
-        judge_nowCity()
-        return true
-    }
-})
-
 //点击改变天气代码code//并且改变定位（搜索框的跳转）
 dom.nav_searchListUl.addEventListener('click', function (e) {
     if (e.target.tagName === 'LI') {
@@ -158,15 +140,6 @@ dom.nav_searchListUl.addEventListener('click', function (e) {
     }
 })
 
-const arrConcern = arrConcern1()
-function arrConcern1(){
-    if(JSON.parse(localStorage.getItem('arrConcern'))){
-        return JSON.parse(localStorage.getItem('arrConcern'))
-    }
-    else{
-        return []
-    }
-}
 //热门城市点击跳转
 dom.nav_hotCity.addEventListener('click',function(e){
     if(e.target.parentNode.dataset.code!==undefined){
@@ -181,66 +154,64 @@ dom.nav_hotCity.addEventListener('click',function(e){
         })
     }
 })
-//监听关注数组变化
-const ChangeConcern = new Proxy(arrConcern, {
 
-    set(target, property, value) {
-        if (property === 'length') {
-        // console.log('检测到增加');
-        render_concern(arrConcern)
+//关注城市的点击事件
+dom.nav_concernLi.addEventListener('click',function(e){
+    if(e.target.tagName==='P'){
+       
+        let parent=e.target.parentElement
+        if(nowCode.code!==Number(parent.dataset.code)){
+            //nowcode
+            nowCode.code=Number(parent.dataset.code)
+            dom.nav_navP.innerHTML=(e.target.parentElement).firstElementChild.firstElementChild.innerHTML
+        }
+    }
+    if(e.target.className==='set_default'){
+        // 设为默认
+        if(e.target.innerHTML==='设为默认'){
+
+        const aim= (e.target.parentElement).firstElementChild
+        user_data.default_last={ name:aim.innerHTML,code:Number(e.target.parentElement.parentElement.dataset.code)}
+        localStorage.setItem('default_last',JSON.stringify(user_data.default_last))//待修改
+        }
+        else {
+            user_data.default_last={name:'陕西 西安',code:101110101,flag:true}
+            localStorage.setItem('default_last',JSON.stringify(user_data.default_last))//待修改
+        }
+        //重新渲染关注列表
+        render_concern(user_data.arrConcern)
+    }
+    if(e.target.className==='delete_concern')
+    {
+        let aimcode=Number(e.target.parentElement.dataset.code)
+        //删除数组中的数据
+        for(let i=0;i<user_data.ChangeConcern.length;i++){
+            if(Number(user_data.ChangeConcern[i].code)===aimcode){    
+               user_data.deleteConcern(i)
+               //666妙手回春
+                render_concern(user_data.arrConcern)
+            }
+        }
+        // console.log(nowCode.code);
         // console.log(arrConcern);
-        //检测当前城市是否包含在数组中
-        judge_nowCity()
         
+        //删除html结构
+        e.target.parentElement.remove()
 
-        }
-        let a=Reflect.set(target, property, value)
-        return a
-    },
-    deleteProperty(target, property) {
-        // console.log('检测到删除');
-        //检测当前城市是否包含在数组中
-
-
-        //删除前
-        let result=Reflect.deleteProperty(...arguments);
-        //删除后
-        judge_nowCity()
-
-
-        return  result
     }
-
 })
 
-
-//检测当前城市是否包含在数组中
-function judge_nowCity(){
-    for(let i=0;i<arrConcern.length;i++){
-        if(arrConcern[i]&&Number(nowCode.code)===Number(arrConcern[i].code)){
-            // console.log('切换');
-            dom.nav_concernBtn.innerHTML=`[已关注]`
-            return
-        }
-    }
-     dom.nav_concernBtn.innerHTML=`[添加关注]`
-     dom.nav_concernBtn.style.cursor='pointer'
-    //  console.log(arrConcern);
-     
-}
-//离开按钮隐藏
-dom.nav_concernBtn.addEventListener('mouseleave', function () {
-    dom.nav_fullCity.style.display = 'none'
-})
 //点击添加当前城市数据到数组(关注添加)
 dom.nav_concernBtn.addEventListener('click', function (e) {
     //阻止默认行为
     e.preventDefault()
     if (dom.nav_concernBtn.innerHTML === `[添加关注]`) {
 
-        let nowdata =JSON.parse(localStorage.getItem('7ddata')).daily[0]
-        if (ChangeConcern.length !== 5) {
-            ChangeConcern.push({name:dom.nav_navP.innerHTML.slice(dom.nav_navP.innerHTML.lastIndexOf(' ')+1),code:nowCode.code,
+        let nowdata =JSON.parse(localStorage.getItem('7ddata')).daily[0]//待修改
+        if (user_data.ChangeConcern.length !== 5) {
+            user_data.ChangeConcern.push({
+                name:dom.nav_navP.innerHTML.slice(dom.nav_navP.innerHTML.lastIndexOf(' ')+1),
+                code:nowCode.code,
                 data:{
                     weatherName:nowdata.textDay,
                     Max:nowdata.tempMax,
@@ -251,7 +222,7 @@ dom.nav_concernBtn.addEventListener('click', function (e) {
             })
             dom.nav_concernBtn.innerHTML = `[已关注]`
             dom.nav_concernBtn.style.cursor = 'default' 
-            localStorage.setItem('arrConcern',JSON.stringify(arrConcern))
+            localStorage.setItem('arrConcern',JSON.stringify(user_data.arrConcern))//待修改
         }
         else {
             dom.nav_fullCity.style.display = 'inline-block'
@@ -263,7 +234,42 @@ dom.nav_concernBtn.addEventListener('click', function (e) {
     }
 })
 
-//添加渲染关注城市//用于监听数组函数调用
+//清除历史记录的事件监听
+dom.nav_clearBtn.addEventListener('click',function(e){
+    e.preventDefault()
+   localStorage.removeItem('historydata')//待修改
+   dom.nav_history.style.display='none'
+    
+})
+
+}
+nav_main()
+
+//默认渲染
+// console.log(default_last);
+
+//nav_导航栏
+
+
+
+
+
+//检测当前城市是否包含在数组中
+function judge_nowCity(){
+    for(let i=0;i<user_data.arrConcern.length;i++){
+        if(user_data.arrConcern[i]&&Number(nowCode.code)===Number(user_data.arrConcern[i].code)){
+            // console.log('切换');
+            dom.nav_concernBtn.innerHTML=`[已关注]`
+            return
+        }
+    }
+     dom.nav_concernBtn.innerHTML=`[添加关注]`
+     dom.nav_concernBtn.style.cursor='pointer'
+    //  console.log(arrConcern);
+     
+}
+
+//渲染关注城市//用于监听数组函数调用
 function render_concern(arr) {
     console.log(arr.length);
     
@@ -272,9 +278,9 @@ function render_concern(arr) {
    if(arr.length===0){
      str=`<span>点击“添加关注”添加城市哟~</span>`
    }
-        for (let i=0;arrConcern[i]&&i<arr.length;i++) {
+        for (let i=0;arr[i]&&i<arr.length;i++) {
 
-            if(Number(arr[i].code)===Number(default_last.code)&&(!default_last.flag)){
+            if(Number(arr[i].code)===Number(user_data.default_last.code)&&(!user_data.default_last.flag)){
                 str= str+ `<li data-code="${arr[i].code}">
            <p class="default_color">
            <span>${arr[i].name}</span>
@@ -305,101 +311,48 @@ function render_concern(arr) {
     dom.nav_concernLi.innerHTML=str
 
 }
-//关注城市的点击事件
-dom.nav_concernLi.addEventListener('click',function(e){
-    if(e.target.tagName==='P'){
-       
-        let parent=e.target.parentElement
-        if(nowCode.code!==Number(parent.dataset.code)){
-            //nowcode
-            nowCode.code=Number(parent.dataset.code)
-            dom.nav_navP.innerHTML=(e.target.parentElement).firstElementChild.firstElementChild.innerHTML
-        }
-    }
-    if(e.target.className==='set_default'){
-        // 设为默认
-        if(e.target.innerHTML==='设为默认'){
 
-        const aim= (e.target.parentElement).firstElementChild
-        default_last={ name:aim.innerHTML,code:Number(e.target.parentElement.parentElement.dataset.code)}
-        localStorage.setItem('default_last',JSON.stringify(default_last))
-        }
-        else {
-            default_last={name:'陕西 西安',code:101110101,flag:true}
-            localStorage.setItem('default_last',JSON.stringify(default_last))
-        }
-        //重新渲染关注列表
-        render_concern(arrConcern)
-    }
-    if(e.target.className==='delete_concern')
-    {
-        let aimcode=Number(e.target.parentElement.dataset.code)
-        //删除数组中的数据
-        for(let i=0;i<ChangeConcern.length;i++){
-            if(Number(ChangeConcern[i].code)===aimcode){
-
-                
-                delete ChangeConcern[i]
-                arrConcern.splice(i,1)//666妙手回春
-                localStorage.setItem('arrConcern',JSON.stringify(arrConcern))
-                render_concern(arrConcern)
-            }
-        }
-        // console.log(nowCode.code);
-        // console.log(arrConcern);
-        
-        //删除html结构
-        e.target.parentElement.remove()
-
-    }
-})
 //历史记录
 // obj= {code:,name:}
 function addhistory(obj){
-    const historyArr= JSON.parse(localStorage.getItem('historydata'))||[]
-    for(let i=0;i<historyArr.length;i++){
-        if(Number(obj.code)===Number(historyArr[i].code)){
+   
+    for(let i=0;i<user_data.historyArr.length;i++){
+        if(Number(obj.code)===Number(user_data.historyArr[i].code)){
             return
         }
     }
 
 
-    historyArr.unshift(obj)
-    if(historyArr.length>4){//多余的删除
-        historyArr.pop()
+    user_data.historyArr.unshift(obj)
+    if(user_data.historyArr.length>4){//多余的删除
+        user_data.historyArr.pop()
     }
-    localStorage.setItem('historydata',JSON.stringify(historyArr))//存下
+    localStorage.setItem('historydata',JSON.stringify(user_data.historyArr))//存下待修改
+
     //渲染
     render_history()
     //调用时将历史栏设为显示
     dom.nav_history.style.display='block'
 
-}
-//清除历史记录的事件监听
+}//暂完
 
-dom.nav_clearBtn.addEventListener('click',function(e){
-    e.preventDefault()
-   localStorage.removeItem('historydata')
-   dom.nav_history.style.display='none'
-    
-})
 //历史记录渲染
 function render_history(){
-    const historyArr= JSON.parse(localStorage.getItem('historydata'))||[]
-    if(historyArr.length===[].length){
+    //待加入
+    if(user_data.historyArr.length===[].length){
         dom.nav_history.style.display='none'
         return
     }
     //不为空则要渲染
     let str=''
-    for(let i=0;i<historyArr.length;i++){
-        str= str+ `<li data-code="${historyArr[i].code}" data-name="${historyArr[i].name}"><p>${historyArr[i].name}</p></li>`
+    for(let i=0;i<user_data.historyArr.length;i++){
+        str= str+ `<li data-code="${user_data.historyArr[i].code}" data-name="${user_data.historyArr[i].name}"><p>${user_data.historyArr[i].name}</p></li>`
     }
 
     dom.nav_historyUl.innerHTML=str
 }
 function render() {  // 默认渲染
-    render_concern(arrConcern)//关注记录
+    render_concern(user_data.arrConcern)//关注记录
     judge_nowCity()
     console.log(`请求${nowCode.code}数据`);
     render_history()//历史记录渲染
@@ -411,17 +364,96 @@ function render() {  // 默认渲染
     render_air(getApiData(changeLocation(airUrl, String(nowCode.code))))
 }
 
-
-
-
 function default_location(){//默认渲染
-    dom.nav_navP.innerHTML=default_last.name
+    dom.nav_navP.innerHTML=user_data.default_last.name
 }
 //第一次渲染
-default_location()
-render(nowCode)
 
 
+ 
+
+
+
+
+const user_data=(()=>{
+//历史记录，关注数组，默认城市
+    let userData={
+        default_last:JSON.parse(localStorage.getItem('default_last'))||{name:'陕西 西安',code:101110101,flag:true},
+        arrConcern:JSON.parse(localStorage.getItem('arrConcern'))||[],
+        historyArr:JSON.parse(localStorage.getItem('historydata'))||[]
+    }
+
+    //默认的
+    
+
+    //监听关注数组变化
+    const ChangeConcern = new Proxy(userData.arrConcern, {
+
+    set(target, property, value) {
+        if (property === 'length') {
+        // console.log('检测到增加');
+        render_concern(userData.arrConcern)
+        // console.log(arrConcern);
+        //检测当前城市是否包含在数组中
+        judge_nowCity()
+        
+
+        }
+        let a=Reflect.set(target, property, value)
+        return a
+    },
+    deleteProperty(target, property) {
+        // console.log('检测到删除');
+        //检测当前城市是否包含在数组中
+
+
+        //删除前
+        let result=Reflect.deleteProperty(...arguments);
+        //删除后
+        judge_nowCity()
+
+
+        return  result
+    }
+
+    })
+
+    return {
+        historyArr:userData.historyArr,//返回历史数组
+        default_last:userData.default_last,//返回默认城市
+        ChangeConcern:ChangeConcern,//检测改变关注数组
+        deleteConcern(i){
+            delete ChangeConcern[i]
+            userData.arrConcern.splice(i,1)
+            localStorage.setItem('arrConcern',JSON.stringify(userData.arrConcern))
+        },//删除
+        arrConcern:userData.arrConcern
+        
+        
+
+
+    }
+
+})()
+
+  //初始化天气代码
+  const WeatherCode = { code: user_data.default_last.code }
+  localStorage.setItem('code', JSON.stringify(WeatherCode))
+  //检测天气代码改变
+  const nowCode = new Proxy(WeatherCode, {
+  set(target, key, val) {
+      // console.log(`属性 ${key} 从 ${target[key]} 变成 ${val}`);
+      target[key] = val
+      localStorage.setItem('code', JSON.stringify(WeatherCode))
+      //得到数据并渲染
+      render(nowCode)
+      //检测当前城市是否在其中
+      judge_nowCity()
+      return true
+  }
+  })
+  default_location()
+  render(nowCode)
 
 
 
