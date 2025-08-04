@@ -1,3 +1,8 @@
+import {
+    dom
+} from './dom.js'
+
+
 //以下为七日天气预报
 
 
@@ -6,7 +11,6 @@ export function render_7d(sevenday, yesterday) {//7日数据
     let arr = []
     Promise.all([sevenday,yesterday]).then(([f7,fy])=>{
         localStorage.setItem('7ddata',JSON.stringify(f7.data))
-        
         arr = JSON.parse(JSON.stringify(f7.data.daily))
         let minWind = 12
         let maxWind = 0;
@@ -28,8 +32,6 @@ export function render_7d(sevenday, yesterday) {//7日数据
             iconNight: fy.data.weatherHourly[23].icon,
             windScaleDay: `${minWind}-${maxWind}`,
         })
-
-
         //以上为构建八天的数据
         render_7d_child(arr)//渲染7天的天气预报
         render_chart(arr)//渲染折线图
@@ -39,8 +41,6 @@ export function render_7d(sevenday, yesterday) {//7日数据
 
 
 }
-
-
 
 
 function render_7d_child(arr) {//渲染7d
@@ -70,8 +70,8 @@ function render_7d_child(arr) {//渲染7d
     //插入风级
     // console.log(arr);
     
-    const n_wind = document.querySelector('.wind')
-    n_wind.innerHTML = `${arr[1].windDirDay} ${arr[1].windScaleDay}级`
+
+    dom.body_wind.innerHTML = `${arr[1].windDirDay} ${arr[1].windScaleDay}级`
     //角度
     let d
     switch (arr[1].windDirDay) {
@@ -100,18 +100,18 @@ function render_7d_child(arr) {//渲染7d
             d = 135
             break;
     }
-    const windIcon = document.querySelector('.wind_before')
-    windIcon.style.rotate = `${d}deg`
+    dom.body_windIcon.style.rotate = `${d}deg`
 
     //插入
-    const aimul = document.querySelector('.seven_day ul')
-    aimul.innerHTML = str
+
+    dom.body_aimUl.innerHTML = str
 }
 //折线图
 //全局注册
+
+
 Chart.register(ChartDataLabels);
 function render_chart(arr) {
-    const ctx = document.getElementById('myChart');//创建元素
     //横坐标
     const x = [0, 1, 2, 3, 4, 5, 6, 7]
     let hightTemp = []
@@ -195,42 +195,43 @@ function render_chart(arr) {
     //设置
 
     //设立
-    if (Chart.getChart(ctx)) {
-        Chart.getChart(ctx).destroy()
+    if (Chart.getChart(dom.body_Ctx)) {
+        Chart.getChart(dom.body_Ctx).destroy()
     }
-    let myChart = new Chart(ctx, config)
+    let myChart = new Chart(dom.body_Ctx, config)
 
 }
-
 
 
 //15日天气预报的插入
 function add_15d() {
-    document.querySelector('.weather15d').href = `https://www.weather.com.cn/weather15d/${JSON.parse(localStorage.getItem('code')).code}.shtml`
+    dom.body_tempWeather.href = `https://www.weather.com.cn/weather15d/${JSON.parse(localStorage.getItem('code')).code}.shtml`
 }
 
 
 //以上为七日天气预报中的内容
-
-
 //生活指数
+function daily_main(){
+    let daily_now = 0
+    dom.daily_leftBtn.addEventListener('click', function () {
+        if (daily_now !== 0) {
+            daily_now = 0
+            dom.daily_move.style.transform = `translateX(-${daily_now}px)`
+        }
+    
+    
+    })
+   dom.daily_rightBtn.addEventListener('click', function () {
+        if (daily_now === 0) {
+            daily_now = 458
+            console.log(111);
+            dom.daily_move.style.transform = `translateX(-${daily_now}px)`
+        }
+    })
+    
+}
+daily_main()
 
-let daily_now = 0
-document.querySelector('.daily_left').addEventListener('click', function () {
-    if (daily_now !== 0) {
-        daily_now = 0
-        document.querySelector('.daily_index ul').style.transform = `translateX(-${daily_now}px)`
-    }
-
-
-})
-document.querySelector('.daily_right').addEventListener('click', function () {
-    if (daily_now === 0) {
-        daily_now = 458
-        console.log(111);
-        document.querySelector('.daily_index ul').style.transform = `translateX(-${daily_now}px)`
-    }
-})
 
 //生活指数渲染
 export function render_OneDay(res) {
@@ -242,7 +243,7 @@ export function render_OneDay(res) {
         // console.log(Arr);
         // console.log(res);
         let str = ''
-        const aimadd=document.querySelector('.daily_index .window ul')
+
 
         for (let i = 0; i < Arr.length; i++) {
             str = str + `
@@ -260,7 +261,7 @@ export function render_OneDay(res) {
                             `
         }
 
-        aimadd.innerHTML=str
+        dom.daily_add.innerHTML=str
 
 
 

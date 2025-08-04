@@ -1,4 +1,6 @@
-
+import {
+    dom
+} from './dom.js'
 
 
 //当前渲染
@@ -6,28 +8,18 @@ export function render_now(res){
     res.then(f => {
         // console.log(f.data);
         //发布时间
-         document.querySelector('.push_time').innerHTML=`中央气象台${f.data.now.obsTime.slice(11, 16)}发布`
-        
+         dom.bot_push.innerHTML=`中央气象台${f.data.now.obsTime.slice(11, 16)}发布`   
         // localStorage.setItem('nowdata',JSON.stringify(res))
         //当前温度
-        const nowtemp=document.querySelector('.now_temp')
-        nowtemp.innerHTML=`${f.data.now.temp}°`
+        dom.bot_nowTemp.innerHTML=`${f.data.now.temp}°`
         //当前天气
-        const weathername=document.querySelector(`.weather_name`)
-        weathername.innerHTML=`${f.data.now.text}`
-
+        dom.bot_weather.innerHTML=`${f.data.now.text}`
         //天气图标
-        const nowicon=document.querySelector('.now_icon')
-        nowicon.style.background=`url(/data/img/big${f.data.now.icon}.png)`
-
+        dom.bot_icon.style.background=`url(/data/img/big${f.data.now.icon}.png)`
         //湿度
-        const humi=document.querySelector('.humidity')
-        humi.innerHTML=`湿度 ${f.data.now.humidity}%`
+        dom.bot_humi.innerHTML=`湿度 ${f.data.now.humidity}%`
         //气压
-        const kPa=document.querySelector('.kPa')
-        kPa.innerHTML=`气压 ${f.data.now.pressure}hPa`
-        
-        
+        dom.bot_kPa.innerHTML=`气压 ${f.data.now.pressure}hPa`
     })
 }
 
@@ -67,7 +59,7 @@ export function render_warning(res){
                         </li>
                         `
         }
-        document.querySelector('.warning').innerHTML=str
+       dom.bot_warning.innerHTML=str
     })
 }
 
@@ -108,8 +100,8 @@ export function render_air(res){
                  im='../data/img/liang.png'
                 break
         }
-        const style =document.createElement('style')
-        style.textContent=`
+
+        dom.bot_addStyle.textContent=`
         .now_aqi {
          background-color: ${color};
         }
@@ -123,15 +115,15 @@ export function render_air(res){
         }
         `
        
-        document.querySelector('.now_aqi span').innerHTML=`${f.data.now.aqi} ${f.data.now.category}`
-        document.querySelector('.airtitle').innerHTML=`空气质量指数 ${f.data.now.aqi} ${f.data.now.category}`
-        document.querySelector('.pm25').innerHTML=`${f.data.now.pm2p5}`
-         document.querySelector('.pm10').innerHTML=`${f.data.now.pm10}`
-         document.querySelector('.so2').innerHTML=`${f.data.now.so2}`
-         document.querySelector('.no2').innerHTML=`${f.data.now.no2}`
-         document.querySelector('.o3').innerHTML=`${f.data.now.o3}`
-         document.querySelector('.co').innerHTML=`${f.data.now.co}`
-         document.head.appendChild(style);
+        dom.bot_nowAQI.innerHTML=`${f.data.now.aqi} ${f.data.now.category}`
+        dom.bot_head.innerHTML=`空气质量指数 ${f.data.now.aqi} ${f.data.now.category}`
+        dom.bot_pm25.innerHTML=`${f.data.now.pm2p5}`
+        dom.bot_pm10.innerHTML=`${f.data.now.pm10}`
+        dom.bot_so2.innerHTML=`${f.data.now.so2}`
+        dom.bot_no2.innerHTML=`${f.data.now.no2}`
+        dom.bot_o3.innerHTML=`${f.data.now.o3}`
+        dom.bot_co.innerHTML=`${f.data.now.co}`
+        document.head.appendChild(dom.bot_addStyle);
     })
 
 }

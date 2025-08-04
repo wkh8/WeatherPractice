@@ -1,40 +1,46 @@
-//渲染完后加过渡
+import {
+    dom
+} from './dom.js'
+
+//渲染完后加过渡,防止初始化移动
 requestAnimationFrame(() => {
     setTimeout(() => {
-        document.querySelector('.see ul').classList.add('transition')
+    dom.hours_move.classList.add('transition')
     }, 100)
 
 })
+//包含事件监听，防止污染
+function hours_main(){
+
 //当前位置
 let now = 0;
+//右按钮添加监听
+dom.hours_rightBtn.addEventListener('click', function () {
 
-//获取btn
-const rightbtn = document.querySelector(`.two_btn .right`)
-rightbtn.addEventListener('click', function () {
-    const move = document.querySelector('.see ul')
-    if (now + 1100 > move.clientWidth - 1200) {
-        now = move.clientWidth - 1200
+    if (now + 1100 > dom.hours_move.clientWidth - 1200) {
+        now = dom.hours_move.clientWidth - 1200
     }
     else {
         now = 1100 + now
     }
-
-    move.style.transform = `translateX(-${now}px)`
+    dom.hours_move.style.transform = `translateX(-${now}px)`
     console.log(now);
-
     //: ;
 })
-const leftbtn = document.querySelector(`.two_btn .left`)
-leftbtn.addEventListener('click', function () {
-    const move = document.querySelector('.see ul')
+
+
+dom.hours_leftBtn.addEventListener('click', function () {
     if (now - 1100 > 0) {
         now = now - 1100
     }
     else {
         now = 0
     }
-    move.style.transform = `translateX(-${now}px)`
+    dom.hours_move.style.transform = `translateX(-${now}px)`
 })
+}
+//调用
+hours_main()
 //处理数据
 export function render_hours(resfh, resfs) {
     Promise.all([resfh, resfs]).then(([fh, fs]) => {
@@ -72,8 +78,8 @@ export function render_hours(resfh, resfs) {
                         `
            
         }
-        const aimul = document.querySelector('.see ul')
-        aimul.innerHTML = str
+
+        dom.hours_move.innerHTML = str
     })
     
 
