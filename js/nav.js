@@ -29,7 +29,11 @@ import {
     dom
 }
 from './dom.js'
-
+import {
+user_data,
+}
+from './userDataMoudle.js'
+//事件监听
 function nav_main(){
     let AimCity=[]
 
@@ -128,13 +132,12 @@ dom.nav_searchListUl.addEventListener('click', function (e) {
         //有代码才改变
         if (e.target.dataset.code) {
             dom.nav_navP.innerHTML= e.target.dataset.location
-            nowCode.code = e.target.dataset.code
-            addhistory({
+            CodeNow.setNowCode(e.target.dataset.code)
+            user_data.addHistory({
                 name:e.target.dataset.location.slice(dom.nav_navP.innerHTML.lastIndexOf(' ')+1),
                 // navP.innerHTML.slice(navP.innerHTML.lastIndexOf(',')+1)
                 code:e.target.dataset.code
             })
-            console.log(nowCode.code);
         }
 
     }
@@ -144,12 +147,11 @@ dom.nav_searchListUl.addEventListener('click', function (e) {
 dom.nav_hotCity.addEventListener('click',function(e){
     if(e.target.parentNode.dataset.code!==undefined){
         let aim= e.target.parentNode
-        console.log(`转到${aim.dataset.code}`);
-        nowCode.code=Number(aim.dataset.code)
+        CodeNow.setNowCode(aim.dataset.code)
         // 改名
         dom.nav_navP.innerHTML=aim.dataset.name
         //历史记录
-        addhistory({name:aim.dataset.name,
+        user_data.addHistory({name:aim.dataset.name,
             code:aim.dataset.code
         })
     }
@@ -157,12 +159,11 @@ dom.nav_hotCity.addEventListener('click',function(e){
 
 //关注城市的点击事件
 dom.nav_concernLi.addEventListener('click',function(e){
-    if(e.target.tagName==='P'){
+    if(e.target.tagName==='P'){//转到关注城市
        
         let parent=e.target.parentElement
-        if(nowCode.code!==Number(parent.dataset.code)){
-            //nowcode
-            nowCode.code=Number(parent.dataset.code)
+        if(CodeNow.getNowCode()!==Number(parent.dataset.code)){
+            CodeNow.setNowCode(parent.dataset.code)
             dom.nav_navP.innerHTML=(e.target.parentElement).firstElementChild.firstElementChild.innerHTML
         }
     }
@@ -171,35 +172,29 @@ dom.nav_concernLi.addEventListener('click',function(e){
         if(e.target.innerHTML==='设为默认'){
 
         const aim= (e.target.parentElement).firstElementChild
-        user_data.default_last={ name:aim.innerHTML,code:Number(e.target.parentElement.parentElement.dataset.code)}
-        localStorage.setItem('default_last',JSON.stringify(user_data.default_last))//待修改
+        user_data.setDefault({ name:aim.innerHTML,code:Number(e.target.parentElement.parentElement.dataset.code)})
         }
         else {
-            user_data.default_last={name:'陕西 西安',code:101110101,flag:true}
-            localStorage.setItem('default_last',JSON.stringify(user_data.default_last))//待修改
+            user_data.setDefault({name:'陕西 西安',code:101110101,flag:true})
         }
         //重新渲染关注列表
-        render_concern(user_data.arrConcern)
+        render_concern(user_data.getArrConcern())
     }
     if(e.target.className==='delete_concern')
-    {
+    {//删除默认
         let aimcode=Number(e.target.parentElement.dataset.code)
         //删除数组中的数据
-        for(let i=0;i<user_data.ChangeConcern.length;i++){
-            if(Number(user_data.ChangeConcern[i].code)===aimcode){    
+        let concernarr=user_data.getArrConcern()
+        for(let i=0;i<concernarr.length;i++){
+            if(Number(concernarr[i].code)===aimcode){    
                user_data.deleteConcern(i)
-               //666妙手回春
-                render_concern(user_data.arrConcern)
             }
         }
-        // console.log(nowCode.code);
-        // console.log(arrConcern);
-        
         //删除html结构
         e.target.parentElement.remove()
 
     }
-})
+})//改
 
 //点击添加当前城市数据到数组(关注添加)
 dom.nav_concernBtn.addEventListener('click', function (e) {
@@ -207,11 +202,11 @@ dom.nav_concernBtn.addEventListener('click', function (e) {
     e.preventDefault()
     if (dom.nav_concernBtn.innerHTML === `[添加关注]`) {
 
-        let nowdata =JSON.parse(localStorage.getItem('7ddata')).daily[0]//待修改
-        if (user_data.ChangeConcern.length !== 5) {
-            user_data.ChangeConcern.push({
+        let nowdata =JSON.parse(localStorage.getItem('7ddata')).daily[0]
+        if (user_data.getArrConcern().length !== 5) {
+            user_data.addConcern({
                 name:dom.nav_navP.innerHTML.slice(dom.nav_navP.innerHTML.lastIndexOf(' ')+1),
-                code:nowCode.code,
+                code:CodeNow.getNowCode(),
                 data:{
                     weatherName:nowdata.textDay,
                     Max:nowdata.tempMax,
@@ -220,9 +215,6 @@ dom.nav_concernBtn.addEventListener('click', function (e) {
                 }
 
             })
-            dom.nav_concernBtn.innerHTML = `[已关注]`
-            dom.nav_concernBtn.style.cursor = 'default' 
-            localStorage.setItem('arrConcern',JSON.stringify(user_data.arrConcern))//待修改
         }
         else {
             dom.nav_fullCity.style.display = 'inline-block'
@@ -237,16 +229,15 @@ dom.nav_concernBtn.addEventListener('click', function (e) {
 //清除历史记录的事件监听
 dom.nav_clearBtn.addEventListener('click',function(e){
     e.preventDefault()
-   localStorage.removeItem('historydata')//待修改
+   user_data.deleteHistory()
    dom.nav_history.style.display='none'
     
-})
+})//改
 
 }
 nav_main()
 
 //默认渲染
-// console.log(default_last);
 
 //nav_导航栏
 
@@ -254,12 +245,14 @@ nav_main()
 
 
 
-//检测当前城市是否包含在数组中
-function judge_nowCity(){
-    for(let i=0;i<user_data.arrConcern.length;i++){
-        if(user_data.arrConcern[i]&&Number(nowCode.code)===Number(user_data.arrConcern[i].code)){
+//仅用于user——data与初次渲染（判断当前城市是否已经再关注数组中）
+export function judge_nowCity(){
+    let concernarr=user_data.getArrConcern()
+    for(let i=0;i<concernarr.length;i++){
+        if(CodeNow.getNowCode()===Number(concernarr[i].code)){
             // console.log('切换');
             dom.nav_concernBtn.innerHTML=`[已关注]`
+            dom.nav_concernBtn.style.cursor = 'default'
             return
         }
     }
@@ -268,9 +261,9 @@ function judge_nowCity(){
     //  console.log(arrConcern);
      
 }
-
 //渲染关注城市//用于监听数组函数调用
-function render_concern(arr) {
+export function render_concern(arr) {
+    let def=user_data.getDefault()
     console.log(arr.length);
     
     let str = ''
@@ -278,9 +271,10 @@ function render_concern(arr) {
    if(arr.length===0){
      str=`<span>点击“添加关注”添加城市哟~</span>`
    }
+   
         for (let i=0;arr[i]&&i<arr.length;i++) {
 
-            if(Number(arr[i].code)===Number(user_data.default_last.code)&&(!user_data.default_last.flag)){
+            if(Number(arr[i].code)===Number(def.code)&&(!def.flag)){
                 str= str+ `<li data-code="${arr[i].code}">
            <p class="default_color">
            <span>${arr[i].name}</span>
@@ -311,149 +305,59 @@ function render_concern(arr) {
     dom.nav_concernLi.innerHTML=str
 
 }
-
 //历史记录
 // obj= {code:,name:}
-function addhistory(obj){
-   
-    for(let i=0;i<user_data.historyArr.length;i++){
-        if(Number(obj.code)===Number(user_data.historyArr[i].code)){
-            return
-        }
-    }
-
-
-    user_data.historyArr.unshift(obj)
-    if(user_data.historyArr.length>4){//多余的删除
-        user_data.historyArr.pop()
-    }
-    localStorage.setItem('historydata',JSON.stringify(user_data.historyArr))//存下待修改
-
-    //渲染
-    render_history()
-    //调用时将历史栏设为显示
-    dom.nav_history.style.display='block'
-
-}//暂完
-
 //历史记录渲染
-function render_history(){
+export function render_history(){
     //待加入
-    if(user_data.historyArr.length===[].length){
+    let historyArr=user_data.getHistory()
+    if(historyArr.length===[].length){
         dom.nav_history.style.display='none'
         return
     }
     //不为空则要渲染
     let str=''
-    for(let i=0;i<user_data.historyArr.length;i++){
-        str= str+ `<li data-code="${user_data.historyArr[i].code}" data-name="${user_data.historyArr[i].name}"><p>${user_data.historyArr[i].name}</p></li>`
+    for(let i=0;i<historyArr.length;i++){
+        str= str+ `<li data-code="${historyArr[i].code}" data-name="${historyArr[i].name}"><p>${historyArr[i].name}</p></li>`
     }
 
     dom.nav_historyUl.innerHTML=str
 }
 function render() {  // 默认渲染
-    render_concern(user_data.arrConcern)//关注记录
+    render_concern(user_data.getArrConcern())//关注记录
     judge_nowCity()
-    console.log(`请求${nowCode.code}数据`);
+    console.log(`请求${CodeNow.getNowCode()}数据`);
     render_history()//历史记录渲染
-    render_OneDay(getApiData(changeLocation(oneDayUrl, String(nowCode.code))))//指数
-    render_7d(getApiData(changeLocation(sevenDayUrl, String(nowCode.code))),getApiData(changeLocation(yesterdayUrl, String(nowCode.code))))//七日预报(包括昨天数据)
-    render_hours(getApiData(changeLocation(allHourUrl, String(nowCode.code))),getApiData(changeLocation(sevenDayUrl, String(nowCode.code))))//逐小时播报
-    render_now(getApiData(changeLocation(nowUrl, String(nowCode.code))))//实况
-    render_warning(getApiData(changeLocation(warningUrl, String(nowCode.code))))
-    render_air(getApiData(changeLocation(airUrl, String(nowCode.code))))
+    render_OneDay(getApiData(changeLocation(oneDayUrl, String(CodeNow.getNowCode()))))//指数
+    render_7d(getApiData(changeLocation(sevenDayUrl, String(CodeNow.getNowCode()))),getApiData(changeLocation(yesterdayUrl, String(CodeNow.getNowCode()))))//七日预报(包括昨天数据)
+    render_hours(getApiData(changeLocation(allHourUrl, String(CodeNow.getNowCode()))),getApiData(changeLocation(sevenDayUrl, String(CodeNow.getNowCode()))))//逐小时播报
+    render_now(getApiData(changeLocation(nowUrl, String(CodeNow.getNowCode()))))//实况
+    render_warning(getApiData(changeLocation(warningUrl, String(CodeNow.getNowCode()))))
+    render_air(getApiData(changeLocation(airUrl, String(CodeNow.getNowCode()))))
 }
 
-function default_location(){//默认渲染
-    dom.nav_navP.innerHTML=user_data.default_last.name
-}
+
 //第一次渲染
 
 
- 
-
-
-
-
-const user_data=(()=>{
-//历史记录，关注数组，默认城市
-    let userData={
-        default_last:JSON.parse(localStorage.getItem('default_last'))||{name:'陕西 西安',code:101110101,flag:true},
-        arrConcern:JSON.parse(localStorage.getItem('arrConcern'))||[],
-        historyArr:JSON.parse(localStorage.getItem('historydata'))||[]
-    }
-
-    //默认的
-    
-
-    //监听关注数组变化
-    const ChangeConcern = new Proxy(userData.arrConcern, {
-
-    set(target, property, value) {
-        if (property === 'length') {
-        // console.log('检测到增加');
-        render_concern(userData.arrConcern)
-        // console.log(arrConcern);
-        //检测当前城市是否包含在数组中
-        judge_nowCity()
-        
-
-        }
-        let a=Reflect.set(target, property, value)
-        return a
-    },
-    deleteProperty(target, property) {
-        // console.log('检测到删除');
-        //检测当前城市是否包含在数组中
-
-
-        //删除前
-        let result=Reflect.deleteProperty(...arguments);
-        //删除后
-        judge_nowCity()
-
-
-        return  result
-    }
-
-    })
+const CodeNow=(()=>{
+    let code=user_data.getDefault().code
 
     return {
-        historyArr:userData.historyArr,//返回历史数组
-        default_last:userData.default_last,//返回默认城市
-        ChangeConcern:ChangeConcern,//检测改变关注数组
-        deleteConcern(i){
-            delete ChangeConcern[i]
-            userData.arrConcern.splice(i,1)
-            localStorage.setItem('arrConcern',JSON.stringify(userData.arrConcern))
-        },//删除
-        arrConcern:userData.arrConcern
-        
-        
-
-
+        getNowCode(){
+            return Number(code)
+        },
+        setNowCode(aim){
+            code=Number(aim)
+        render(code)//调用渲染
+        }
     }
-
 })()
-
-  //初始化天气代码
-  const WeatherCode = { code: user_data.default_last.code }
-  localStorage.setItem('code', JSON.stringify(WeatherCode))
-  //检测天气代码改变
-  const nowCode = new Proxy(WeatherCode, {
-  set(target, key, val) {
-      // console.log(`属性 ${key} 从 ${target[key]} 变成 ${val}`);
-      target[key] = val
-      localStorage.setItem('code', JSON.stringify(WeatherCode))
-      //得到数据并渲染
-      render(nowCode)
-      //检测当前城市是否在其中
-      judge_nowCity()
-      return true
-  }
-  })
+function default_location(){//默认渲染
+    dom.nav_navP.innerHTML=user_data.getDefault().name
+}
   default_location()
-  render(nowCode)
+  render(CodeNow.getNowCode())
 
 
 

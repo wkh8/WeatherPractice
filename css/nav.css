@@ -286,7 +286,7 @@ display: block;
     font-size: 12px;
     margin-right: 20px;
     background-color: #f0f0f0;
-    margin-top: 3px;
+    margin-top: -20px;
 }
 .history_ul,.history ul {
     width: 259px;

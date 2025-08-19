@@ -1,0 +1,85 @@
+*{
+    padding: 0;
+    margin: 0;
+}
+
+body {
+    background-color: aqua;
+}
+
+input[type="text"],
+    input[type="password"] {
+      border: none; 
+      outline: none; 
+      padding: 0; 
+      margin: 0; 
+      border-radius: 0; 
+      padding: 0 5px;
+      width: 400px;
+      height: 60px;
+      /* background: ;  */
+    }
+.main {
+    width: 700px;
+    height: 600px;
+    background-color: rgb(97, 14, 14);
+    margin: 0 auto;
+    margin-top: 200px;
+    text-align: center;
+    position: relative;
+}
+.move_window{
+    width: 200%;
+    height: 100%;
+}
+.main_login{
+    width: 700px;
+    height: 600px;
+    float: left;
+}
+.main_reg {
+    width: 700px;
+    height: 600px;
+    float: left;
+}
+[class$='box'] {
+    margin: 10px 0px;
+}
+[class^='main_'] .title {
+   width: 100%;
+   height: 60px;
+   line-height: 60px;
+   font-size: 30px;
+   color: rgb(255, 255, 255);
+   background-color: rgb(20, 211, 241);
+}
+.in p {
+    display: inline-block;
+}
+.promptWindow {
+    position: fixed;
+    top: -50px;
+    left: 50%;
+    transform: translateX(-50%);
+    border: 1px solid black;
+    border-radius: 4px;
+    width: 200px;
+    height: 50px;
+    overflow: hidden;
+    animation: promptMove 3s 1 forwards
+}
+@keyframes promptMove {
+    0%{
+        transform:translateX(-50%) translateY(0)
+    }
+    10%{
+        transform:translateX(-50%) translateY(100%)
+    }
+    90%{
+        transform:translateX(-50%) translateY(100%)
+    }
+    100%{
+        transform:translateX(-50%) translateY(0)
+    }
+}
+/* 调用 animation: promptMove 3s 1 forwards;*/

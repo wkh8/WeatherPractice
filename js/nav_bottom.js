@@ -26,7 +26,6 @@ export function render_now(res){
 export function render_warning(res){
     res.then(f=>{
         let warningArr=f.data.warning
-        console.log(warningArr);
         let str=''
 
         for(let item of warningArr){
