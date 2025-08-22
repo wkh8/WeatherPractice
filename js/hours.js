@@ -44,8 +44,8 @@ hours_main()
 //处理数据
 export function render_hours(resfh, resfs) {
     Promise.all([resfh, resfs]).then(([fh, fs]) => {
-        console.log(fh.data);
-        console.log(fs.data);
+        // console.log(fh.data);
+        // console.log(fs.data);
         let sun = [
             { fxTime: fs.data.daily[0].fxDate + 'T' + fs.data.daily[0].sunrise + '+08:00', icon: 'sunrise', temp: '日出' },
             { fxTime: fs.data.daily[0].fxDate + 'T' + fs.data.daily[0].sunset + '+08:00', icon: 'sunset', temp: '日落' },

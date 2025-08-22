@@ -4,57 +4,106 @@
 }
 
 body {
-    background-color: aqua;
+    background-color: #f0f0f0;
+    font-family: Arial, sans-serif;
 }
-
+a {
+    text-decoration: none;
+    color: rgb(141, 141, 141);
+}
+.main_login a,
+.main_reg a{
+   position: absolute;
+   right: 20px;
+   bottom: 10px;
+}
 input[type="text"],
     input[type="password"] {
-      border: none; 
-      outline: none; 
-      padding: 0; 
-      margin: 0; 
-      border-radius: 0; 
-      padding: 0 5px;
-      width: 400px;
-      height: 60px;
+        box-sizing: border-box;
+        display: inline-block;
+        border: 1px solid #ccc;
+        outline: none;
+        padding: 10px;
+        margin: 5px 0;
+        border-radius: 4px;
+        width: 70%;
+        height: 40px;
+        font-size: 16px;
       /* background: ;  */
     }
 .main {
     width: 700px;
-    height: 600px;
-    background-color: rgb(97, 14, 14);
-    margin: 0 auto;
-    margin-top: 200px;
-    text-align: center;
-    position: relative;
+    height: auto;
+    margin: 50px auto;
+    overflow: hidden;
 }
 .move_window{
+    display: flex;
     width: 200%;
-    height: 100%;
+    height: auto;
 }
-.main_login{
-    width: 700px;
-    height: 600px;
-    float: left;
+.main_login{  
+        position: relative;
+        width: 50%;
+        height: 210px;
+        padding: 20px;
+        padding-bottom: 60px;
+        border-radius: 8px;
+        background-color: #fff;
+        /* box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); */
 }
-.main_reg {
-    width: 700px;
-    height: 600px;
-    float: left;
+.main_reg{
+    position: relative;
+    width: 50%;
+    height: 382px;
+    padding: 20px;
+    padding-bottom: 60px;
+    border-radius: 8px;
+    background-color: #fff;
+    /* box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); */
+}
+[class$='prompt'] {
+    padding-left: 100px;
+    height: 12px;
 }
 [class$='box'] {
-    margin: 10px 0px;
+margin: 10px 0;
 }
 [class^='main_'] .title {
    width: 100%;
    height: 60px;
    line-height: 60px;
    font-size: 30px;
-   color: rgb(255, 255, 255);
-   background-color: rgb(20, 211, 241);
+   color: rgb(0, 0, 0);
 }
 .in p {
+    text-align: right;
     display: inline-block;
+    width: 100px;
+}
+p[class$='prompt'] {
+    width: 400px;
+    height: 16px;
+    line-height: 16px;
+    text-align: left;
+    color: silver;
+}
+.login_button,
+.reg_button {
+    position: absolute;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: block;
+    width: 40%;
+    padding: 10px;
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 16px;
+    margin-top: 15px;
 }
 .promptWindow {
     position: fixed;
@@ -66,7 +115,14 @@ input[type="text"],
     width: 200px;
     height: 50px;
     overflow: hidden;
-    animation: promptMove 3s 1 forwards
+    animation: promptMove 3s 1 forwards;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: rgba(0, 0, 0);
+    color: white;
+    font-size: 16px;
+    z-index: 1000;
 }
 @keyframes promptMove {
     0%{

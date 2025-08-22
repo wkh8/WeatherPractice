@@ -234,6 +234,10 @@ dom.nav_clearBtn.addEventListener('click',function(e){
     
 })//改
 
+dom.exitBtn.addEventListener('click',()=>{
+    localStorage.setItem('token','')
+    window.location.replace('login.html')
+})
 }
 nav_main()
 
@@ -335,7 +339,10 @@ function render() {  // 默认渲染
     render_warning(getApiData(changeLocation(warningUrl, String(CodeNow.getNowCode()))))
     render_air(getApiData(changeLocation(airUrl, String(CodeNow.getNowCode()))))
 }
-
+//15日天气预报的插入
+export function add_15d() {
+    dom.body_tempWeather.href = `https://www.weather.com.cn/weather15d/${CodeNow.getNowCode()}.shtml`
+}
 
 //第一次渲染
 

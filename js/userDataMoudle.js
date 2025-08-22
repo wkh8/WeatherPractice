@@ -26,24 +26,26 @@ await (async () => {
     //     arrConcern:lastUser.arrConcern||[],
     //     historyArr:lastUser.historyArr||[]
     // }
-//测试
-localStorage.setItem('token','eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6IndraCIsImlhdCI6MTc1NTQyMzEyMCwiZXhwIjoxNzU1NDMwMzIwfQ.Lm7KFw5_zIg6kIGiVtg1NJcT6gP4ipPfzTBmgM-gNF')
-
     let token = localStorage.getItem('token')
     let temp = await tokenGet_API(token)
-    console.log(temp);
-    
     let userData
+    // console.log(temp);
     if (temp.data&&temp.data.code === 400) {//自动登录成功
-        userData = JSON.parse(temp.data.userdata)
+        userData = temp.data.userdata
     }
     else {//否则
         //跳转至登录页面
         turnLogin()
     }
     //userdata要加username
-    function setUser() {//更新数据
-      
+    async function setUser() {//更新数据
+    let res= await upDate_API(userData.username,JSON.stringify(userData),token)
+    console.log(res);
+    //token过期
+    if(res.data.code===102){
+        turnLogin()
+    }
+
     }
 
 

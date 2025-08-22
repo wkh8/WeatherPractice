@@ -12,7 +12,7 @@ const SECRET='siyao666'
 
 //建立与mysql的连接关系
 const db= mysql.createPool({
-    host:'127.0.0.1', //ip地址
+    host:'127.0.0.1', //ip
     user:'root', //数据库账号
     password:'wkhwkh123',//密码
     database:`my_sql2`,//指定要操作的数据库
@@ -81,7 +81,7 @@ async function SQL_getUser(password,username){
        }
        else if(res[0].password===password){
         //不传数据只传token
-        return {code:400,message:"登录成功",/*userdata:res[0].data,*/token:jwt.sign({ username }, SECRET, { expiresIn: '2h' })}
+        return {code:400,message:"登录成功",/*userdata:res[0].data,*/token:jwt.sign({ username }, SECRET, { expiresIn: '2h' })}//token过期时间
        }
         else{
             return{code:404,message:'数据库错误?'}
@@ -117,10 +117,10 @@ async function SQL_setUser(data){
     }
     catch(err){
         if(err.code==='ER_DUP_ENTRY'){
-            return{code:404,message:'用户名已经存在'}
+            return{code:405,message:'用户名已经存在'}
         }
         else{
-            return {code:404,message:err.message}
+            return {code:300,message:err.message}
         }
     }
 }

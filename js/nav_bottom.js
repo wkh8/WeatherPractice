@@ -65,7 +65,7 @@ export function render_warning(res){
 
 export function render_air(res){
     res.then(f=>{
-        console.log(f.data);
+        // console.log(f.data);
 
         let color
         let im

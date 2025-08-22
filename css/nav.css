@@ -330,3 +330,8 @@ display: block;
     color: #448aff;
     pointer-events: none;
 }
+
+.exit {
+    font-size: 12px;
+    margin-right: 20px;
+}

@@ -39,7 +39,7 @@ const api=axios.create({
         return result
     }
     catch(err){
-        return {code:404,message:err.message}
+        return err
     }
 
 }
@@ -56,20 +56,25 @@ export async function register_API(password,username,data,name){
         return result
     }
     catch(err){
-        return {code:404,message:err.message}
+        return err
     }
 
 }
 //更新数据
-export async function upDate_API(username,data){
+export async function upDate_API(username,data,token){
     try{
        const result= await api.put('/update',
             {username,
                 data,
-            })
+            },
+        {
+            headers:{
+                Authorization: token
+             }
+        })
         return result
     }catch(err){
-        return {code:404,message:err.message}
+        return err
     }
     
 }
@@ -83,7 +88,7 @@ export async function tokenGet_API(token){
              })
          return result
      }catch(err){
-         return {code:404,message:err.message}
+         return err
      }
     
 }

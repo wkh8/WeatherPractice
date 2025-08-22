@@ -1,8 +1,7 @@
 import {
     dom
 } from './dom.js'
-
-
+import { add_15d } from './nav.js' 
 //以下为七日天气预报
 
 
@@ -203,10 +202,7 @@ function render_chart(arr) {
 }
 
 
-//15日天气预报的插入
-function add_15d() {
-    dom.body_tempWeather.href = `https://www.weather.com.cn/weather15d/${JSON.parse(localStorage.getItem('code')).code}.shtml`
-}
+
 
 
 //以上为七日天气预报中的内容

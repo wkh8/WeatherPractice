@@ -31,6 +31,7 @@ export const dom ={
     bot_o3:document.querySelector('.o3'),
     bot_co:document.querySelector('.co'),
     //nav
+    exitBtn:document.querySelector('.exit'),
     nav_searchCity:document.querySelector(`.search_city`),
     nav_searchList:document.querySelector(`.search_list`),
     nav_searchListUl:document.querySelector(`.search_list ul`),
